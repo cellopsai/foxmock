@@ -1,24 +1,3 @@
-
-
-Skip to content
-Using Gmail with screen readers
-Enable desktop notifications for Gmail.
-   OK  No thanks
-1 of 1,660
-Readme
-Inbox
-
-Alwin John
-Attachments
-11:59 AM (0 minutes ago)
-to me
-
-
-
-Thanks and Regards,
-Alwin V. John
- One attachment
-  •  Scanned by Gmail
 # FoxMock
 
 **All-in-one HTTP, SFTP, and gRPC mock server built into your JetBrains IDE.**
