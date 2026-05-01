@@ -182,6 +182,4 @@ All rights reserved. &copy; 2026 FoxMock.
 
 ## Support / Issues
 
-Please open an issue at the project repository or email `support@foxmock.dev`.
-README_ac6025fb-fd78-4f22-9483-55a16b338e54.md
-Displaying README_ac6025fb-fd78-4f22-9483-55a16b338e54.md.
+Please open an issue at the project repository or email `johnvalwin7@gmail.com`.
