@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Mock gRPC Services in IntelliJ Without Spinning Up a Server — FoxMock</title>
+  <meta name="description" content="Step-by-step guide to using FoxMock — a free IntelliJ plugin — to mock gRPC services with multiple scenarios, conditional switching, and zero extra processes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <!-- Canonical -->
+  <link rel="canonical" href="https://fox-mock.com/tutorial.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="FoxMock" />
+  <meta property="og:title" content="How to Mock gRPC Services in IntelliJ Without Spinning Up a Server — FoxMock" />
+  <meta property="og:description" content="Step-by-step guide to using FoxMock — a free IntelliJ plugin — to mock gRPC services with multiple scenarios, conditional switching, and zero extra processes." />
+  <meta property="og:url" content="https://fox-mock.com/tutorial.html" />
+  <meta property="og:image" content="https://fox-mock.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="How to Mock gRPC Services in IntelliJ — FoxMock Tutorial" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How to Mock gRPC Services in IntelliJ Without Spinning Up a Server" />
+  <meta name="twitter:description" content="Step-by-step: use FoxMock to mock gRPC with multiple scenarios, conditional switching, and zero extra processes." />
+  <meta name="twitter:image" content="https://fox-mock.com/og-image.png" />
+
+  <!-- Extra SEO -->
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Cellops" />
+  <meta name="theme-color" content="#0B0B0F" />
+
+  <!-- JSON-LD: TechArticle + BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "How to Mock gRPC Services in IntelliJ Without Spinning Up a Server",
+    "description": "Step-by-step guide to using FoxMock to mock gRPC services with scenarios, conditional switching, and zero extra processes.",
+    "url": "https://fox-mock.com/tutorial.html",
+    "author": { "@type": "Organization", "name": "Cellops", "url": "https://cellops.com" },
+    "publisher": { "@type": "Organization", "name": "Cellops", "url": "https://cellops.com" },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://fox-mock.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Tutorial", "item": "https://fox-mock.com/tutorial.html" }
+      ]
+    }
+  }
+  </script>
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://plugins.jetbrains.com/assets/scripts/mp-widget.js"></script>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <img src="foxmock-logo.svg" alt="FoxMock" class="logo-icon" />
+      <span class="logo-wordmark"><span class="logo-fox">Fox</span><span class="logo-mock">Mock</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how-it-works">How It Works</a>
+      <a href="docs.html">Docs</a>
+      <a href="tutorial.html" class="active">Tutorial</a>
+      <div class="nav-sep"></div>
+      <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+      <a href="https://plugins.jetbrains.com/plugin/31488" target="_blank" class="btn-nav">Install Free</a>
+    </div>
+    <button class="nav-mobile-btn" id="nav-mobile-btn" aria-label="Open menu" aria-expanded="false">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </div>
+  <div class="nav-mobile-menu" id="nav-mobile-menu">
+    <a href="index.html#features">Features</a>
+    <a href="index.html#how-it-works">How It Works</a>
+    <a href="docs.html">Docs</a>
+    <a href="tutorial.html" class="active">Tutorial</a>
+    <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+    <a href="https://plugins.jetbrains.com/plugin/31488" target="_blank" class="btn-mobile-install">Install Free</a>
+  </div>
+</nav>
+
+<!-- ARTICLE -->
+<article class="article-wrap">
+
+  <div class="article-meta">
+    <span class="article-tag">Tutorial</span>
+    <span class="article-tag" style="color:#6AC2FF;background:rgba(100,194,255,0.08);border-color:rgba(100,194,255,0.3);">gRPC</span>
+    <span class="article-tag" style="color:#7EE8A2;background:rgba(126,232,162,0.08);border-color:rgba(126,232,162,0.3);">IntelliJ</span>
+    <span class="article-date">May 2025 · 10 min read</span>
+  </div>
+
+  <h1>How to Mock gRPC Services in IntelliJ Without Spinning Up a Server</h1>
+
+  <p class="article-intro">
+    Testing a feature that depends on a gRPC service you don't own is painful. You either call the real
+    service (needs VPN, can't simulate errors), write a hand-rolled stub (boilerplate per method), or run
+    a Docker container just to get a fake response.<br/><br/>
+    <strong>FoxMock</strong> is a free IntelliJ IDEA plugin that runs a real gRPC mock server
+    <em>inside the IDE</em> — no extra processes, no config files, no containers. Load your
+    <code>.proto</code> file, set a JSON response for each method, and your app talks to the mock as if
+    it were the real service.
+  </p>
+
+  <hr/>
+
+  <!-- INSTALLATION -->
+  <h2>Installation</h2>
+
+  <ol>
+    <li>Open <strong>IntelliJ IDEA</strong></li>
+    <li>Go to <strong>File → Settings → Plugins</strong> (macOS: <strong>IntelliJ IDEA → Settings → Plugins</strong>)</li>
+    <li>Open the <strong>Marketplace</strong> tab and search for <strong>FoxMock</strong></li>
+    <li>Click <strong>Install</strong>, then restart the IDE</li>
+  </ol>
+
+  <div class="img-placeholder">screenshot-placeholder-01-marketplace.png</div>
+  <p class="img-caption">Plugin Marketplace — FoxMock search result with Install button</p>
+
+  <p>Or install directly from the JetBrains Marketplace:</p>
+  <div style="margin:20px 0;">
+    <div id="tutorial-install-widget"></div>
+  </div>
+
+  <hr/>
+
+  <!-- OPENING THE GRPC PANEL -->
+  <h2>Opening the gRPC Panel</h2>
+
+  <p>After the IDE restarts, click the <strong>FoxMock</strong> tab in the bottom tool window (or <strong>View → Tool Windows → FoxMock</strong>) and select the <strong>gRPC</strong> tab.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-02-grpc-panel.png</div>
+  <p class="img-caption">FoxMock tool window open on the gRPC tab — empty Proto Files and Methods tables</p>
+
+  <hr/>
+
+  <!-- STEP 1 -->
+  <h2>Step 1 — Load your .proto file</h2>
+
+  <p>FoxMock needs the <code>.proto</code> file to discover your service structure.</p>
+
+  <p><strong>Drag-and-drop</strong> the <code>.proto</code> file onto the Proto Files table, or click <strong>Load Proto File</strong> and browse to it.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-03-drag-drop.png</div>
+  <p class="img-caption">.proto file dragged onto the Proto Files table</p>
+
+  <p>After loading you will see:</p>
+  <ul>
+    <li><strong>Proto Files table</strong> — one row per loaded file, with service count, method count, and status</li>
+    <li><strong>Methods table</strong> — one row per RPC method, pre-filled with a generated sample JSON response</li>
+  </ul>
+
+  <div class="img-placeholder">screenshot-placeholder-04-after-load.png</div>
+  <p class="img-caption">Proto Files and Methods tables filled after loading UserService.proto</p>
+
+  <p>You can load multiple <code>.proto</code> files if your services are spread across several files.</p>
+
+  <hr/>
+
+  <!-- STEP 2 -->
+  <h2>Step 2 — Start the mock server</h2>
+
+  <p>Click <strong>Start Server</strong>. The status label changes to <strong>Status: Running — port 9090</strong>.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-05-running.png</div>
+  <p class="img-caption">gRPC panel showing green "Status: Running — port 9090" label</p>
+
+  <p>The default port is 9090. Change it any time in <strong>Settings → Tools → FoxMock → gRPC Port</strong> — the server restarts automatically.</p>
+
+  <hr/>
+
+  <!-- STEP 3 -->
+  <h2>Step 3 — Configure a method response</h2>
+
+  <p>Double-click any row in the Methods table (or right-click → <strong>Configure…</strong>) to open the scenario editor.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-06-configure-dialog.png</div>
+  <p class="img-caption">Configure dialog for GetUser method — scenario list on the left, editor on the right</p>
+
+  <p>The editor has two panels.</p>
+
+  <p><strong>Left — scenario list</strong><br/>
+  All scenarios defined for this method. The active one (served to clients) is marked <strong>●</strong>.</p>
+
+  <p><strong>Right — scenario editor</strong></p>
+  <ul>
+    <li><strong>Name</strong> — a label for this scenario (e.g. <code>success</code>, <code>not_found</code>)</li>
+    <li><strong>Enabled</strong> — uncheck to exclude this scenario from serving entirely</li>
+    <li><strong>Status</strong> — gRPC status code: <code>OK</code>, <code>NOT_FOUND</code>, <code>INTERNAL</code>, etc.</li>
+    <li><strong>Message</strong> — optional text sent alongside a non-OK status</li>
+    <li><strong>Delay</strong> — artificial latency in milliseconds to simulate a slow service</li>
+    <li><strong>Response tab</strong> — the JSON body returned to the caller</li>
+    <li><strong>Conditions tab</strong> — request-matching rules for automatic scenario switching (covered below)</li>
+  </ul>
+
+  <p>Edit the JSON in the <strong>Response</strong> tab, or click <strong>⚙ Generate from Proto</strong> to regenerate a sample from the proto message definition. Click <strong>Save</strong> when done.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-07-response-tab.png</div>
+  <p class="img-caption">Response tab with JSON editor and "⚙ Generate from Proto" button highlighted</p>
+
+  <hr/>
+
+  <!-- SCENARIO MANAGEMENT -->
+  <h2>Scenario Management</h2>
+
+  <h3>Why multiple scenarios?</h3>
+
+  <p>A scenario is a named mock response for one gRPC method. Having several lets you switch what the server returns with one click — no code change, no restart.</p>
+
+  <p>A typical set for a user lookup method:</p>
+  <ul>
+    <li><code>success</code> → status OK, full user object</li>
+    <li><code>not_found</code> → status NOT_FOUND, empty body, message "User does not exist"</li>
+    <li><code>server_error</code> → status INTERNAL</li>
+    <li><code>slow_response</code> → status OK, full user object, delay 3&thinsp;000 ms</li>
+  </ul>
+
+  <h3>Adding a scenario</h3>
+  <ol>
+    <li>Open the Configure dialog for the method</li>
+    <li>Click <strong>Add</strong> in the scenario list</li>
+    <li>Type a name and press Enter</li>
+    <li>Fill in the fields and click <strong>Save</strong></li>
+  </ol>
+
+  <div class="img-placeholder">screenshot-placeholder-08-multiple-scenarios.png</div>
+  <p class="img-caption">Configure dialog with four scenarios — success ●, not_found, server_error, slow_response</p>
+
+  <h3>Switching the active scenario</h3>
+
+  <p>Select a scenario in the list and click <strong>Set Active</strong>. The <strong>●</strong> badge moves instantly — the very next gRPC call gets that response.</p>
+
+  <p>You can also switch without opening the Configure dialog: right-click a method row → <strong>Switch Scenario</strong> → pick from the submenu.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-09-switch-scenario.png</div>
+  <p class="img-caption">Methods table right-click menu with Switch Scenario submenu open</p>
+
+  <hr/>
+
+  <!-- CONDITIONAL SCENARIOS -->
+  <h2>Conditional Scenarios — Auto-Switch by Request Content</h2>
+
+  <p>Manual switching is great for exploratory testing. For automated tests you often want the mock to return different responses based on what the request contains. That's what conditional scenarios are for.</p>
+
+  <h3>How it works — three-tier resolution</h3>
+
+  <p>Every incoming call goes through this logic in order:</p>
+
+  <p><strong>Tier 1 — Conditional scenarios</strong><br/>
+  Evaluated in priority order (0 = highest). The first scenario whose conditions all match wins.</p>
+
+  <p><strong>Tier 2 — Manually active scenario (●)</strong><br/>
+  If no conditional scenario matched, the scenario you last set active is served.</p>
+
+  <p><strong>Tier 3 — First enabled scenario</strong><br/>
+  Safety net: if the active scenario is disabled, the first enabled one in the list is used.</p>
+
+  <h3>Setting up a condition</h3>
+  <ol>
+    <li>Open the Configure dialog for a method</li>
+    <li>Select or add a scenario (e.g. <code>admin_response</code>)</li>
+    <li>Click the <strong>Conditions</strong> tab</li>
+    <li>Click <strong>Add Condition</strong></li>
+    <li>Fill in the row — for example:
+      <ul>
+        <li><strong>Type:</strong> Body JSONPath</li>
+        <li><strong>Key / Path:</strong> <code>$.role</code></li>
+        <li><strong>Operator:</strong> Equals</li>
+        <li><strong>Value:</strong> <code>ADMIN</code></li>
+      </ul>
+    </li>
+    <li>Click <strong>Save</strong></li>
+  </ol>
+
+  <div class="img-placeholder">screenshot-placeholder-10-conditions-tab.png</div>
+  <p class="img-caption">Conditions tab — one row: Body JSONPath / $.role / Equals / ADMIN</p>
+
+  <p>Now every request whose JSON body has <code>"role": "ADMIN"</code> automatically gets <code>admin_response</code>. Any other role still gets the Tier 2 active scenario — no code change required.</p>
+
+  <h3>Condition types</h3>
+  <ul>
+    <li><strong>Body JSONPath</strong> — extracts a value from the JSON-transcoded request using a JSONPath expression such as <code>$.user.id</code></li>
+    <li><strong>Body Regex</strong> — tests the whole request body against a regular expression</li>
+    <li><strong>Body Exact</strong> — the entire request body must equal the given string</li>
+  </ul>
+
+  <h3>Operators</h3>
+  <ul>
+    <li><strong>Equals</strong> — exact match</li>
+    <li><strong>Contains</strong> — substring present</li>
+    <li><strong>Matches (regex)</strong> — full regex match</li>
+    <li><strong>Exists</strong> — the path must exist (value is ignored)</li>
+  </ul>
+
+  <p>All conditions on one scenario use <strong>AND</strong> logic — every condition must pass. Use the <strong>Priority</strong> spinner to control which conditional scenario wins when multiple could match.</p>
+
+  <h3>The ⚡ badge</h3>
+
+  <p>Scenarios that have at least one condition show a <strong>⚡</strong> badge in the list. A scenario that is both conditional and the active fallback shows <strong>⚡●</strong>.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-11-badges.png</div>
+  <p class="img-caption">Scenario list — admin_response with ⚡ badge, success with ● badge</p>
+
+  <hr/>
+
+  <!-- DISABLING -->
+  <h2>Disabling a Scenario</h2>
+
+  <p>To temporarily remove a scenario from consideration without deleting it:</p>
+  <ol>
+    <li>Select it in the Configure dialog</li>
+    <li>Uncheck <strong>Enabled</strong></li>
+    <li>Click <strong>Save</strong></li>
+  </ol>
+
+  <p>The scenario turns gray and italic in the list. FoxMock skips it completely — conditions are not evaluated and it is never used as the Tier 2 fallback. Re-enable it by ticking the checkbox again.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-12-disabled.png</div>
+  <p class="img-caption">Scenario list with "server_error" grayed-out and italic — Enabled checkbox unchecked</p>
+
+  <hr/>
+
+  <!-- AI GENERATION -->
+  <h2>Generating Responses with AI</h2>
+
+  <p>If your proto messages have many fields, typing realistic JSON by hand is tedious.</p>
+
+  <p><strong>⚙ Generate from Proto</strong> — click this in the Response tab. FoxMock reads the proto message definition and produces a sample with realistic-looking values: <code>email</code> fields get an email address, <code>id</code> fields get a UUID-style string, <code>price</code> fields get a decimal, and so on.</p>
+
+  <p><strong>🤖 Generate with AI</strong> — if you have configured an AI provider in <strong>Settings → Tools → FoxMock → AI Provider</strong> (OpenAI, Claude, Ollama, or a local CLI), this button sends the proto field definitions to the AI and streams the result into the editor. A console window shows the output as it arrives.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-13-ai-console.png</div>
+  <p class="img-caption">CLI console streaming tokens while generating a GetUserResponse payload</p>
+
+  <hr/>
+
+  <!-- SAVE/LOAD CONFIG -->
+  <h2>Saving and Loading Configuration</h2>
+
+  <p>Scenarios persist between IDE sessions — save them to a file and restore them any time.</p>
+
+  <h3>Save</h3>
+
+  <p>Click <strong>Save Config</strong> in the gRPC panel. FoxMock writes a <code>.foxmock-grpc</code> JSON file containing every service, method, scenario, condition, and priority.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-14-save-dialog.png</div>
+  <p class="img-caption">Save Config dialog with filename "grpc-config.foxmock-grpc"</p>
+
+  <p>Here is what the file looks like:</p>
+
+<pre>{
+  "name": "gRPC Config",
+  "version": "1.0",
+  "services": [{
+    "serviceName": "com.example.UserService",
+    "methods": [{
+      "methodName": "GetUser",
+      "activeScenario": "success",
+      "scenarios": [
+        {
+          "name": "success",
+          "enabled": true,
+          "statusCode": "OK",
+          "delayMs": 0,
+          "responseJson": "{ \"id\": \"user-123\", \"name\": \"Alice\" }",
+          "matchConditions": [],
+          "priority": 0
+        },
+        {
+          "name": "not_found",
+          "enabled": true,
+          "statusCode": "NOT_FOUND",
+          "statusMessage": "User does not exist",
+          "delayMs": 0,
+          "responseJson": "{}",
+          "matchConditions": [],
+          "priority": 0
+        }
+      ]
+    }]
+  }]
+}</pre>
+
+  <h3>Load</h3>
+  <ol>
+    <li>Load your <code>.proto</code> file first (the server needs the message definitions)</li>
+    <li>Click <strong>Load Config</strong></li>
+    <li>Select the <code>.foxmock-grpc</code> file</li>
+  </ol>
+
+  <p>All scenarios are restored. If a method in the file is not found in the loaded proto, it is skipped and listed in the confirmation dialog.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-15-load-dialog.png</div>
+  <p class="img-caption">Config Loaded dialog — "3 method(s) restored."</p>
+
+  <p>Commit the <code>.foxmock-grpc</code> file alongside your <code>.proto</code> files in version control so your whole team can load the same mock setup in two clicks.</p>
+
+  <hr/>
+
+  <!-- CONNECT APP -->
+  <h2>Pointing your App at the Mock</h2>
+
+  <p>The server listens on <code>localhost:9090</code> by default. Use the insecure/plaintext variant of your client channel — the mock does not use TLS.</p>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(event,'t-java')">Java / Kotlin</button>
+    <button class="tab-btn" onclick="switchTab(event,'t-go')">Go</button>
+    <button class="tab-btn" onclick="switchTab(event,'t-python')">Python</button>
+    <button class="tab-btn" onclick="switchTab(event,'t-node')">Node.js</button>
+  </div>
+  <div id="t-java" class="tab-panel active">
+<pre>ManagedChannel channel = ManagedChannelBuilder
+    .forAddress("localhost", 9090)
+    .usePlaintext()
+    .build();</pre>
+  </div>
+  <div id="t-go" class="tab-panel">
+<pre>conn, _ := grpc.Dial("localhost:9090", grpc.WithInsecure())</pre>
+  </div>
+  <div id="t-python" class="tab-panel">
+<pre>channel = grpc.insecure_channel("localhost:9090")</pre>
+  </div>
+  <div id="t-node" class="tab-panel">
+<pre>const client = new UserServiceClient(
+  "localhost:9090",
+  grpc.credentials.createInsecure()
+);</pre>
+  </div>
+
+  <hr/>
+
+  <!-- TRANSACTION LOG -->
+  <h2>Transaction Log</h2>
+
+  <p>Every call is logged in the <strong>Transaction Log</strong> pane at the bottom of the gRPC panel. Each entry shows the service name, method name, duration in milliseconds, and whether it succeeded or returned an error status. Use it to confirm your app is hitting the mock and to see which scenario was matched.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-16-transaction-log.png</div>
+  <p class="img-caption">Transaction Log with three rows — GetUser OK 12ms, GetUser NOT_FOUND 8ms, ListUsers OK 45ms</p>
+
+  <hr/>
+
+  <!-- TROUBLESHOOTING -->
+  <h2>Troubleshooting</h2>
+
+  <p><strong>Connection refused</strong> — confirm the port in FoxMock matches your client's target port (<strong>Settings → Tools → FoxMock → gRPC Port</strong>) and that the status label says Running.</p>
+
+  <p><strong>UNIMPLEMENTED</strong> — the method your client is calling is not in any loaded <code>.proto</code> file. Load the correct proto.</p>
+
+  <p><strong>Wrong response</strong> — make sure you clicked <strong>Save</strong> after editing. Check the Transaction Log to see which scenario was actually resolved. Make sure the scenario you expect is active (● badge) or that its conditions matched.</p>
+
+  <p><strong>Proto fails to load</strong> — FoxMock parses <code>proto3</code>. If your proto imports other files, those files must be on disk in a path relative to the loaded file.</p>
+
+  <hr/>
+
+  <p>That's everything you need to go from zero to a fully configured gRPC mock in IntelliJ. Load a proto, set your scenarios, and let FoxMock handle the rest.</p>
+
+  <div style="margin-top:40px;padding:28px;background:var(--dark-3);border:1px solid var(--border-2);border-radius:var(--radius-lg);text-align:center;">
+    <p style="margin-bottom:16px;color:var(--text-muted);font-size:15px;">Ready to try it out?</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+      <div id="article-install-widget"></div>
+      <a href="docs.html" class="btn-secondary">Full Documentation →</a>
+    </div>
+  </div>
+
+</article>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">
+        <img src="foxmock-logo.svg" alt="FoxMock" class="logo-icon" />
+        <span class="logo-wordmark"><span class="logo-fox">Fox</span><span class="logo-mock">Mock</span></span>
+      </a>
+      <p>A free IntelliJ plugin for mocking REST, gRPC, SFTP and SMTP inside your IDE.</p>
+      <p style="margin-top:10px;">A product by <a href="https://cellops.com" target="_blank">Cellops</a></p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how-it-works">How It Works</a>
+      <a href="https://plugins.jetbrains.com/plugin/31488" target="_blank">JetBrains Marketplace</a>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <a href="docs.html">Documentation</a>
+      <a href="tutorial.html">gRPC Tutorial</a>
+      <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="mailto:hello@fox-mock.com">Contact</a>
+      <a href="https://cellops.com" target="_blank">Cellops</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Cellops. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="mailto:hello@fox-mock.com">Contact</a>
+      <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav toggle
+  (function () {
+    const btn = document.getElementById('nav-mobile-btn');
+    const menu = document.getElementById('nav-mobile-menu');
+    if (!btn || !menu) return;
+    btn.addEventListener('click', () => {
+      const open = menu.classList.toggle('open');
+      btn.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open);
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    document.addEventListener('click', e => {
+      if (!btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove('open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-label', 'Open menu');
+      }
+    });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      menu.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Open menu');
+    }));
+  })();
+
+  // JetBrains Marketplace install widgets
+  MarketplaceWidget.setupMarketplaceWidget('install', 31488, '#tutorial-install-widget');
+  MarketplaceWidget.setupMarketplaceWidget('install', 31488, '#article-install-widget');
+
+  // Tab switching
+  function switchTab(event, panelId) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById(panelId).classList.add('active');
+  }
+</script>
+
+</body>
+</html>
