@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorials — FoxMock</title>
+  <meta name="description" content="Step-by-step tutorials for FoxMock — learn how to mock REST APIs with query params and scenarios, or mock gRPC services inside IntelliJ IDEA." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="canonical" href="https://fox-mock.com/tutorials.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="FoxMock" />
+  <meta property="og:title" content="Tutorials — FoxMock" />
+  <meta property="og:description" content="Step-by-step tutorials for FoxMock — learn how to mock REST APIs with query params and scenarios, or mock gRPC services inside IntelliJ IDEA." />
+  <meta property="og:url" content="https://fox-mock.com/tutorials.html" />
+  <meta property="og:image" content="https://fox-mock.com/og-image.png" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Cellops" />
+  <meta name="theme-color" content="#0B0B0F" />
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://plugins.jetbrains.com/assets/scripts/mp-widget.js"></script>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <img src="foxmock-logo.svg" alt="FoxMock" class="logo-icon" />
+      <span class="logo-wordmark"><span class="logo-fox">Fox</span><span class="logo-mock">Mock</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how-it-works">How It Works</a>
+      <a href="docs.html">Docs</a>
+      <a href="tutorials.html" class="active">Tutorials</a>
+      <div class="nav-sep"></div>
+      <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+      <a href="https://plugins.jetbrains.com/plugin/31488" target="_blank" class="btn-nav">Install Free</a>
+    </div>
+    <button class="nav-mobile-btn" id="nav-mobile-btn" aria-label="Open menu" aria-expanded="false">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </div>
+  <div class="nav-mobile-menu" id="nav-mobile-menu">
+    <a href="index.html#features">Features</a>
+    <a href="index.html#how-it-works">How It Works</a>
+    <a href="docs.html">Docs</a>
+    <a href="tutorials.html" class="active">Tutorials</a>
+    <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+    <a href="https://plugins.jetbrains.com/plugin/31488" target="_blank" class="btn-mobile-install">Install Free</a>
+  </div>
+</nav>
+
+<!-- TUTORIALS -->
+<section style="margin-top:62px;padding:80px 0 100px;">
+  <div class="container">
+
+    <div style="text-align:center;margin-bottom:56px;">
+      <div class="section-label">Learn FoxMock</div>
+      <h1 class="section-heading">Tutorials</h1>
+      <p class="section-sub">Step-by-step guides for every protocol FoxMock supports.</p>
+    </div>
+
+    <div class="tutorials-grid">
+
+      <a href="tutorial-rest.html" class="tutorial-card">
+        <div class="tutorial-card-icon">🌐</div>
+        <div class="tutorial-card-body">
+          <div class="tutorial-card-tags">
+            <span class="tutorial-tag orange">REST</span>
+            <span class="tutorial-tag">12 min</span>
+          </div>
+          <h2>Mock REST APIs with Query Params &amp; Scenarios</h2>
+          <p>Add routes, create multiple scenarios for one endpoint, match on query parameters with conditions, and let FoxMock auto-switch responses — no code change, no restart.</p>
+          <ul class="tutorial-card-covers">
+            <li>Adding routes and configuring responses</li>
+            <li>How query parameters are logged and matched</li>
+            <li>Multiple scenarios: success, empty, error, slow</li>
+            <li>Conditional auto-switching by query param value</li>
+            <li>Three-tier resolution explained</li>
+            <li>Save &amp; load collections</li>
+          </ul>
+          <span class="tutorial-card-cta">Read tutorial →</span>
+        </div>
+      </a>
+
+      <a href="tutorial.html" class="tutorial-card">
+        <div class="tutorial-card-icon">⚡</div>
+        <div class="tutorial-card-body">
+          <div class="tutorial-card-tags">
+            <span class="tutorial-tag blue">gRPC</span>
+            <span class="tutorial-tag">10 min</span>
+          </div>
+          <h2>Mock gRPC Services Without Spinning Up a Server</h2>
+          <p>Load a <code>.proto</code> file, configure JSON responses for every RPC method, and run a real gRPC mock server inside IntelliJ — zero extra processes.</p>
+          <ul class="tutorial-card-covers">
+            <li>Loading .proto files and discovering methods</li>
+            <li>Configuring gRPC status codes and responses</li>
+            <li>Multiple scenarios per method</li>
+            <li>Conditional scenarios with Body JSONPath</li>
+            <li>AI response generation from proto definitions</li>
+            <li>Save &amp; load .foxmock-grpc config files</li>
+          </ul>
+          <span class="tutorial-card-cta">Read tutorial →</span>
+        </div>
+      </a>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">
+        <img src="foxmock-logo.svg" alt="FoxMock" class="logo-icon" />
+        <span class="logo-wordmark"><span class="logo-fox">Fox</span><span class="logo-mock">Mock</span></span>
+      </a>
+      <p>A free IntelliJ plugin for mocking REST, gRPC, SFTP and SMTP inside your IDE.</p>
+      <p style="margin-top:10px;">A product by <a href="https://cellops.com" target="_blank">Cellops</a></p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how-it-works">How It Works</a>
+      <a href="https://plugins.jetbrains.com/plugin/31488" target="_blank">JetBrains Marketplace</a>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <a href="docs.html">Documentation</a>
+      <a href="tutorials.html">Tutorials</a>
+      <a href="changelog.html">Changelog</a>
+      <a href="tutorial-rest.html">REST Tutorial</a>
+      <a href="tutorial.html">gRPC Tutorial</a>
+      <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="mailto:hello@fox-mock.com">Contact</a>
+      <a href="https://cellops.com" target="_blank">Cellops</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Cellops. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="mailto:hello@fox-mock.com">Contact</a>
+      <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    const btn = document.getElementById('nav-mobile-btn');
+    const menu = document.getElementById('nav-mobile-menu');
+    if (!btn || !menu) return;
+    btn.addEventListener('click', () => {
+      const open = menu.classList.toggle('open');
+      btn.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open);
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    document.addEventListener('click', e => {
+      if (!btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove('open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-label', 'Open menu');
+      }
+    });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      menu.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Open menu');
+    }));
+  })();
+</script>
+
+</body>
+</html>

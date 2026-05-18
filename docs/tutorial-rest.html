@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Mock REST APIs with Query Params &amp; Scenarios in IntelliJ — FoxMock</title>
+  <meta name="description" content="Step-by-step guide to mocking REST endpoints in IntelliJ with FoxMock. Covers query parameter matching, multiple scenarios, conditional auto-switching, and save/load collections." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://fox-mock.com/tutorial-rest.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="FoxMock" />
+  <meta property="og:title" content="How to Mock REST APIs with Query Params &amp; Scenarios in IntelliJ — FoxMock" />
+  <meta property="og:description" content="Step-by-step guide to mocking REST endpoints in IntelliJ with FoxMock. Covers query parameter matching, multiple scenarios, conditional auto-switching, and save/load collections." />
+  <meta property="og:url" content="https://fox-mock.com/tutorial-rest.html" />
+  <meta property="og:image" content="https://fox-mock.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="How to Mock REST APIs in IntelliJ — FoxMock Tutorial" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How to Mock REST APIs with Query Params &amp; Scenarios in IntelliJ" />
+  <meta name="twitter:description" content="Step-by-step: use FoxMock to mock REST endpoints with query param matching, multiple scenarios, and conditional auto-switching." />
+  <meta name="twitter:image" content="https://fox-mock.com/og-image.png" />
+
+  <!-- Extra SEO -->
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Cellops" />
+  <meta name="theme-color" content="#0B0B0F" />
+
+  <!-- JSON-LD: TechArticle + BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "How to Mock REST APIs with Query Params and Scenarios in IntelliJ",
+    "description": "Step-by-step guide to mocking REST endpoints in IntelliJ with FoxMock. Covers query parameter matching, multiple scenarios, conditional auto-switching, and save/load collections.",
+    "url": "https://fox-mock.com/tutorial-rest.html",
+    "author": { "@type": "Organization", "name": "Cellops", "url": "https://cellops.com" },
+    "publisher": { "@type": "Organization", "name": "Cellops", "url": "https://cellops.com" },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://fox-mock.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Tutorials", "item": "https://fox-mock.com/tutorial-rest.html" },
+        { "@type": "ListItem", "position": 3, "name": "REST Tutorial", "item": "https://fox-mock.com/tutorial-rest.html" }
+      ]
+    }
+  }
+  </script>
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://plugins.jetbrains.com/assets/scripts/mp-widget.js"></script>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <img src="foxmock-logo.svg" alt="FoxMock" class="logo-icon" />
+      <span class="logo-wordmark"><span class="logo-fox">Fox</span><span class="logo-mock">Mock</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how-it-works">How It Works</a>
+      <a href="docs.html">Docs</a>
+      <a href="tutorials.html">Tutorials</a>
+      <div class="nav-sep"></div>
+      <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+      <a href="https://plugins.jetbrains.com/plugin/31488" target="_blank" class="btn-nav">Install Free</a>
+    </div>
+    <button class="nav-mobile-btn" id="nav-mobile-btn" aria-label="Open menu" aria-expanded="false">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </div>
+  <div class="nav-mobile-menu" id="nav-mobile-menu">
+    <a href="index.html#features">Features</a>
+    <a href="index.html#how-it-works">How It Works</a>
+    <a href="docs.html">Docs</a>
+    <a href="tutorials.html">Tutorials</a>
+    <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+    <a href="https://plugins.jetbrains.com/plugin/31488" target="_blank" class="btn-mobile-install">Install Free</a>
+  </div>
+</nav>
+
+<!-- ARTICLE -->
+<article class="article-wrap">
+
+  <div class="article-meta">
+    <span class="article-tag">Tutorial</span>
+    <span class="article-tag" style="color:#FF6B35;background:rgba(255,107,53,0.08);border-color:rgba(255,107,53,0.3);">REST</span>
+    <span class="article-tag" style="color:#7EE8A2;background:rgba(126,232,162,0.08);border-color:rgba(126,232,162,0.3);">IntelliJ</span>
+    <span class="article-date">May 2025 · 12 min read</span>
+  </div>
+
+  <h1>How to Mock REST APIs with Query Params &amp; Scenarios in IntelliJ</h1>
+
+  <p class="article-intro">
+    Your frontend needs a search endpoint that isn't built yet. Your integration tests need to simulate
+    a 500 error from a third-party API you don't control. Your QA team needs to reproduce an edge case
+    that only happens when a specific query parameter is present.<br/><br/>
+    <strong>FoxMock</strong> is a free IntelliJ IDEA plugin that solves all three — without leaving
+    your IDE. Define routes, attach multiple named scenarios, match conditions on query parameters, and
+    switch responses with one click. No Node.js, no Docker, no WireMock config files.
+  </p>
+
+  <hr/>
+
+  <!-- TOC -->
+  <div class="article-toc">
+    <strong>In this tutorial</strong>
+    <ol>
+      <li><a href="#install">Installation</a></li>
+      <li><a href="#first-route">Add your first route</a></li>
+      <li><a href="#query-params">How query parameters work</a></li>
+      <li><a href="#multiple-scenarios">Create multiple scenarios</a></li>
+      <li><a href="#switch-scenarios">Switch scenarios manually</a></li>
+      <li><a href="#conditional">Conditional auto-switching by query param</a></li>
+      <li><a href="#three-tier">Three-tier resolution explained</a></li>
+      <li><a href="#disable">Disabling a scenario</a></li>
+      <li><a href="#transaction-log">Transaction log</a></li>
+      <li><a href="#save-load">Save &amp; load collections</a></li>
+      <li><a href="#troubleshooting">Troubleshooting</a></li>
+    </ol>
+  </div>
+
+  <hr/>
+
+  <!-- INSTALLATION -->
+  <h2 id="install">Installation</h2>
+
+  <ol>
+    <li>Open <strong>IntelliJ IDEA</strong></li>
+    <li>Go to <strong>File → Settings → Plugins</strong> (macOS: <strong>IntelliJ IDEA → Settings → Plugins</strong>)</li>
+    <li>Open the <strong>Marketplace</strong> tab and search for <strong>FoxMock</strong></li>
+    <li>Click <strong>Install</strong>, then restart the IDE</li>
+  </ol>
+
+  <p>Or install directly:</p>
+  <div style="margin:20px 0;">
+    <div id="tutorial-install-widget"></div>
+  </div>
+
+  <p>After restarting, open the <strong>FoxMock</strong> tool window at the bottom of the IDE
+  (or <strong>View → Tool Windows → FoxMock</strong>) and select the <strong>HTTP Mock</strong> tab.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-rest-01-panel.png</div>
+  <p class="img-caption">FoxMock tool window — HTTP Mock tab with empty route table</p>
+
+  <hr/>
+
+  <!-- FIRST ROUTE -->
+  <h2 id="first-route">Add your first route</h2>
+
+  <p>We'll mock a <code>GET /search</code> endpoint that returns product results. Click <strong>Add Route</strong>.</p>
+
+  <p>Fill in the route dialog:</p>
+  <ul>
+    <li><strong>Method</strong>: <code>GET</code></li>
+    <li><strong>Path</strong>: <code>/search</code></li>
+  </ul>
+
+  <p>In the <strong>Response</strong> tab of the scenario editor, set <strong>Status</strong> to
+  <code>200</code> and paste this JSON body:</p>
+
+<pre>{
+  "results": [
+    { "id": 1, "name": "Laptop Pro 15", "price": 1299.99 },
+    { "id": 2, "name": "Ultrabook Air",  "price": 999.99  }
+  ],
+  "total": 2,
+  "query": "laptop"
+}</pre>
+
+  <p>Name this scenario <code>laptop_results</code>. Click <strong>Save</strong>.</p>
+
+  <p>Click <strong>Start Server</strong>. The status label changes to
+  <strong>Status: Running — port 8090</strong>.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-rest-02-running.png</div>
+  <p class="img-caption">HTTP Mock panel — Status: Running, one route in the table</p>
+
+  <p>Test it:</p>
+
+<pre>curl -s "http://localhost:8090/search?q=laptop"</pre>
+
+  <p>You should get the JSON body you configured back immediately.</p>
+
+  <hr/>
+
+  <!-- QUERY PARAMS -->
+  <h2 id="query-params">How query parameters work</h2>
+
+  <p>FoxMock's route matching is <strong>path-only</strong> by default. The route <code>GET /search</code>
+  matches any request to <code>/search</code> regardless of what query parameters are present —
+  <code>?q=laptop</code>, <code>?q=phone&amp;page=2</code>, or no params at all.</p>
+
+  <p>This means one route covers all variations of the endpoint. You can then use
+  <strong>conditions</strong> on individual scenarios to serve different responses based on specific
+  query parameter values — without creating separate routes for each combination.</p>
+
+  <h3>Query params in the Transaction Log</h3>
+
+  <p>Every request is logged in the Transaction Log pane at the bottom of the HTTP Mock panel.
+  For parameterized requests the log shows the query string inline:</p>
+
+<pre>[11:20:16]  GET  /search  →  200  13ms
+    ↳ Q: q=laptop
+
+[11:20:31]  GET  /search  →  200  8ms
+    ↳ Q: q=phone&amp;page=2</pre>
+
+  <p>The <code>Q:</code> prefix marks the decoded query string. Use this to confirm FoxMock is
+  receiving the parameters your app is sending before you write any conditions.</p>
+
+  <hr/>
+
+  <!-- MULTIPLE SCENARIOS -->
+  <h2 id="multiple-scenarios">Create multiple scenarios</h2>
+
+  <p>A <strong>scenario</strong> is a named response configuration attached to one route. A single
+  route can have as many scenarios as you need — each with its own status code, headers, body, delay,
+  and match conditions.</p>
+
+  <p>For a search endpoint, a typical set looks like this:</p>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Scenario name</span><span>Status</span><span>When to use</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>laptop_results</code></span><span>200</span><span>Happy path — returns product list</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>empty_results</code></span><span>200</span><span>Valid query, nothing found</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>server_error</code></span><span>500</span><span>Simulate a backend failure</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>slow_response</code></span><span>200</span><span>3 000 ms delay — timeout testing</span>
+    </div>
+  </div>
+
+  <h3>Adding a scenario</h3>
+
+  <ol>
+    <li>Double-click the <code>GET /search</code> row (or right-click → <strong>Configure…</strong>)</li>
+    <li>Click <strong>Add Scenario</strong> in the scenario list on the left</li>
+    <li>Name it <code>empty_results</code></li>
+    <li>Set <strong>Status</strong> to <code>200</code> and paste the response body:</li>
+  </ol>
+
+<pre>{
+  "results": [],
+  "total": 0,
+  "query": "unknown"
+}</pre>
+
+  <p>Click <strong>Save</strong>. Repeat for the remaining scenarios:</p>
+
+  <p><strong>server_error</strong> — Status <code>500</code>, body:</p>
+<pre>{
+  "error": "Internal Server Error",
+  "message": "Something went wrong. Please try again later."
+}</pre>
+
+  <p><strong>slow_response</strong> — Status <code>200</code>, same body as
+  <code>laptop_results</code>, <strong>Delay</strong> set to <code>3000</code> ms.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-rest-03-scenarios.png</div>
+  <p class="img-caption">Configure dialog for GET /search — four scenarios in the list</p>
+
+  <hr/>
+
+  <!-- SWITCH SCENARIOS -->
+  <h2 id="switch-scenarios">Switch scenarios manually</h2>
+
+  <p>The scenario marked <strong>●</strong> is the one currently being served. To switch:</p>
+
+  <p><strong>From the Configure dialog:</strong> select a scenario in the list and click
+  <strong>Set Active</strong>. The ● badge moves immediately — the very next request gets that
+  response.</p>
+
+  <p><strong>Without opening the dialog:</strong> right-click the route row →
+  <strong>Switch Scenario</strong> → pick from the submenu. This is the fastest way to flip
+  responses during exploratory testing.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-rest-04-switch.png</div>
+  <p class="img-caption">Right-click submenu — Switch Scenario with four options listed</p>
+
+  <p>Try it with curl to see the change take effect immediately:</p>
+
+<pre># Set server_error active, then:
+curl -s "http://localhost:8090/search?q=laptop"
+# → {"error":"Internal Server Error","message":"Something went wrong..."}</pre>
+
+  <hr/>
+
+  <!-- CONDITIONAL -->
+  <h2 id="conditional">Conditional auto-switching by query param</h2>
+
+  <p>Manual switching is useful for exploratory testing. For automated tests you need the mock to
+  return different responses based on what the caller sends — automatically, without any human
+  intervention. That's what <strong>conditional scenarios</strong> are for.</p>
+
+  <p>Conditions are rules attached to a scenario. When a request arrives, FoxMock evaluates all
+  conditional scenarios in priority order. The first one whose conditions all pass is served.
+  Everyone else gets the manually active scenario.</p>
+
+  <h3>Example: serve different results based on the <code>q</code> param</h3>
+
+  <p>We want:</p>
+  <ul>
+    <li><code>?q=laptop</code> → <code>laptop_results</code> (200, full list)</li>
+    <li><code>?q=</code> (empty) or missing → <code>empty_results</code> (200, empty list)</li>
+    <li>anything else → the active fallback scenario (currently <code>laptop_results</code>)</li>
+  </ul>
+
+  <h3>Step 1 — Add a condition to <code>laptop_results</code></h3>
+
+  <ol>
+    <li>Open the Configure dialog for <code>GET /search</code></li>
+    <li>Select the <code>laptop_results</code> scenario</li>
+    <li>Click the <strong>Conditions</strong> tab</li>
+    <li>Click <strong>Add Condition</strong></li>
+    <li>Fill in the row:
+      <ul>
+        <li><strong>Type:</strong> <code>Query Param</code></li>
+        <li><strong>Key / Path:</strong> <code>q</code></li>
+        <li><strong>Operator:</strong> <code>Contains</code></li>
+        <li><strong>Value:</strong> <code>laptop</code></li>
+      </ul>
+    </li>
+    <li>Click <strong>Save</strong></li>
+  </ol>
+
+  <div class="img-placeholder">screenshot-placeholder-rest-05-condition.png</div>
+  <p class="img-caption">Conditions tab — Query Param / q / Contains / laptop</p>
+
+  <p>The scenario now shows a <strong>⚡</strong> badge in the list — indicating it has at least
+  one condition.</p>
+
+  <h3>Step 2 — Add a condition to <code>empty_results</code></h3>
+
+  <ol>
+    <li>Select the <code>empty_results</code> scenario</li>
+    <li>Click the <strong>Conditions</strong> tab → <strong>Add Condition</strong></li>
+    <li>Fill in:
+      <ul>
+        <li><strong>Type:</strong> <code>Query Param</code></li>
+        <li><strong>Key / Path:</strong> <code>q</code></li>
+        <li><strong>Operator:</strong> <code>Equals</code></li>
+        <li><strong>Value:</strong> leave blank (empty string)</li>
+      </ul>
+    </li>
+    <li>Click <strong>Save</strong></li>
+  </ol>
+
+  <h3>Step 3 — Test it</h3>
+
+<pre># Matches laptop_results condition → laptop list
+curl -s "http://localhost:8090/search?q=laptop"
+
+# Matches empty_results condition → empty list
+curl -s "http://localhost:8090/search?q="
+
+# No condition matches → falls back to active scenario
+curl -s "http://localhost:8090/search?q=phone"</pre>
+
+  <p>No code change, no server restart — FoxMock routes each request to the right scenario
+  automatically.</p>
+
+  <h3>All condition types available for REST routes</h3>
+
+  <div class="condition-ref-table">
+    <div class="crt-row header">
+      <span>Type</span><span>What it matches on</span><span>Example key</span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Query Param</strong></span>
+      <span>A single query parameter value</span>
+      <span><code>q</code>, <code>page</code>, <code>sort</code></span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Header</strong></span>
+      <span>A request header value</span>
+      <span><code>Authorization</code>, <code>X-User-Id</code></span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Body JSONPath</strong></span>
+      <span>A field inside a JSON request body</span>
+      <span><code>$.role</code>, <code>$.user.id</code></span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Body Regex</strong></span>
+      <span>The entire raw body against a regex</span>
+      <span><code>.*error.*</code></span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Body Exact</strong></span>
+      <span>The entire body must equal the string exactly</span>
+      <span><code>{"action":"ping"}</code></span>
+    </div>
+  </div>
+
+  <h3>Operators</h3>
+  <ul>
+    <li><strong>Equals</strong> — exact match (case-sensitive)</li>
+    <li><strong>Contains</strong> — substring present anywhere in the value</li>
+    <li><strong>Matches (regex)</strong> — full regex match against the value</li>
+    <li><strong>Exists</strong> — the parameter or field must be present (value is ignored)</li>
+  </ul>
+
+  <p>Multiple conditions on one scenario use <strong>AND</strong> logic — every condition must
+  pass. Use the <strong>Priority</strong> spinner to control which conditional scenario wins when
+  more than one could match the same request.</p>
+
+  <hr/>
+
+  <!-- THREE TIER -->
+  <h2 id="three-tier">Three-tier resolution explained</h2>
+
+  <p>Every incoming HTTP request goes through this logic in order:</p>
+
+  <div class="tier-block">
+    <div class="tier">
+      <div class="tier-num">1</div>
+      <div class="tier-body">
+        <strong>Conditional scenarios</strong> — evaluated in priority order (lower number = higher priority).
+        The first scenario whose <em>all</em> conditions match wins and is served immediately.
+      </div>
+    </div>
+    <div class="tier">
+      <div class="tier-num">2</div>
+      <div class="tier-body">
+        <strong>Manually active scenario (●)</strong> — if no conditional scenario matched, the scenario
+        you last set active via Set Active or Switch Scenario is served.
+      </div>
+    </div>
+    <div class="tier">
+      <div class="tier-num">3</div>
+      <div class="tier-body">
+        <strong>First enabled scenario</strong> — safety net. If the active scenario has been disabled,
+        FoxMock falls back to the first enabled scenario in the list.
+      </div>
+    </div>
+  </div>
+
+  <p>Scenario badges in the list reflect this:</p>
+  <ul>
+    <li><strong>●</strong> — this is the active Tier 2 fallback</li>
+    <li><strong>⚡</strong> — this scenario has at least one condition (participates in Tier 1)</li>
+    <li><strong>⚡●</strong> — conditional and also the active fallback</li>
+    <li><em>gray / italic</em> — disabled, skipped entirely</li>
+  </ul>
+
+  <hr/>
+
+  <!-- DISABLE -->
+  <h2 id="disable">Disabling a scenario</h2>
+
+  <p>To take a scenario out of rotation without deleting it:</p>
+
+  <ol>
+    <li>Open the Configure dialog</li>
+    <li>Select the scenario</li>
+    <li>Uncheck <strong>Enabled</strong></li>
+    <li>Click <strong>Save</strong></li>
+  </ol>
+
+  <p>The scenario turns gray and italic. FoxMock skips it at all three tiers — conditions are not
+  evaluated, and it is never used as the Tier 2 fallback. Re-enable it by ticking the checkbox.</p>
+
+  <p>This is useful for keeping a <code>server_error</code> scenario defined but inactive during
+  normal development, and enabling it only when you want to test your error handling.</p>
+
+  <hr/>
+
+  <!-- TRANSACTION LOG -->
+  <h2 id="transaction-log">Transaction Log</h2>
+
+  <p>The <strong>Transaction Log</strong> pane at the bottom of the HTTP Mock panel records every
+  request FoxMock receives. Each entry shows:</p>
+
+  <ul>
+    <li>Timestamp</li>
+    <li>HTTP method and path</li>
+    <li>Response status code</li>
+    <li>Duration in milliseconds</li>
+    <li>Query string (prefixed <code>Q:</code>)</li>
+    <li>Which scenario was matched</li>
+  </ul>
+
+<pre>[11:20:16]  GET  /search  →  200  13ms  [laptop_results]
+    ↳ Q: q=laptop
+
+[11:20:31]  GET  /search  →  200  8ms   [empty_results]
+    ↳ Q: q=
+
+[11:20:44]  GET  /search  →  500  5ms   [server_error ●]
+    ↳ Q: q=phone</pre>
+
+  <p>The log is your first debugging tool. If the wrong scenario is being served, look at which
+  scenario name appears in brackets and compare it with your condition rules.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-rest-06-log.png</div>
+  <p class="img-caption">Transaction Log — three requests, different scenarios matched</p>
+
+  <hr/>
+
+  <!-- SAVE/LOAD -->
+  <h2 id="save-load">Save &amp; load collections</h2>
+
+  <p>Your entire mock setup — all routes, scenarios, conditions, priorities — can be saved to a
+  <code>.foxmock</code> JSON file and restored at any time.</p>
+
+  <h3>Save</h3>
+  <ol>
+    <li>Click <strong>💾 Save Collection</strong> in the HTTP Mock panel</li>
+    <li>Choose a filename and location (e.g. <code>search-api.foxmock</code>)</li>
+  </ol>
+
+  <p>The file looks like this:</p>
+
+<pre>{
+  "name": "Search API",
+  "version": "1.0",
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/search",
+      "activeScenario": "laptop_results",
+      "scenarios": [
+        {
+          "name": "laptop_results",
+          "enabled": true,
+          "statusCode": 200,
+          "delayMs": 0,
+          "responseBody": "{\"results\":[...],\"total\":2}",
+          "matchConditions": [
+            {
+              "type": "QUERY_PARAM",
+              "key": "q",
+              "operator": "CONTAINS",
+              "value": "laptop"
+            }
+          ],
+          "priority": 0
+        },
+        {
+          "name": "empty_results",
+          "enabled": true,
+          "statusCode": 200,
+          "delayMs": 0,
+          "responseBody": "{\"results\":[],\"total\":0}",
+          "matchConditions": [
+            {
+              "type": "QUERY_PARAM",
+              "key": "q",
+              "operator": "EQUALS",
+              "value": ""
+            }
+          ],
+          "priority": 1
+        },
+        {
+          "name": "server_error",
+          "enabled": false,
+          "statusCode": 500,
+          "delayMs": 0,
+          "responseBody": "{\"error\":\"Internal Server Error\"}",
+          "matchConditions": [],
+          "priority": 0
+        }
+      ]
+    }
+  ]
+}</pre>
+
+  <h3>Load</h3>
+  <ol>
+    <li>Click <strong>📂 Load Collection</strong></li>
+    <li>Select the <code>.foxmock</code> file</li>
+  </ol>
+
+  <p>All routes and scenarios are restored exactly as saved. Commit the <code>.foxmock</code> file to
+  version control — your whole team loads the identical mock setup in two clicks.</p>
+
+  <hr/>
+
+  <!-- TROUBLESHOOTING -->
+  <h2 id="troubleshooting">Troubleshooting</h2>
+
+  <p><strong>404 — No mock route configured</strong><br/>
+  FoxMock received the request but has no route for that method + path combination. Check the route
+  table: the method must match exactly (<code>GET</code> is not <code>POST</code>) and the path must
+  match including leading slash. Wildcards work: <code>/search/*</code> matches
+  <code>/search/anything</code>.</p>
+
+  <p><strong>Wrong scenario is being served</strong><br/>
+  Check the Transaction Log — the scenario name in brackets shows exactly what was matched. Then open
+  the Configure dialog and verify: (1) the correct scenario has conditions that match the request,
+  (2) the scenario is enabled, (3) priority is set correctly if multiple conditions could match.</p>
+
+  <p><strong>Condition not matching</strong><br/>
+  Query parameter matching is case-sensitive. <code>q=Laptop</code> does not match a condition with
+  value <code>laptop</code> and operator <code>Equals</code>. Use <code>Contains</code> or
+  <code>Matches (regex)</code> with <code>(?i)laptop</code> for case-insensitive matching.</p>
+
+  <p><strong>Connection refused</strong><br/>
+  The server is not running. Check the status label — click <strong>Start Server</strong> if it says
+  Stopped. Confirm the port in FoxMock matches the port your client is connecting to
+  (<strong>Settings → Tools → FoxMock → HTTP Port</strong>).</p>
+
+  <p><strong>Port already in use</strong><br/>
+  Another process is using port 8090. Change the port in <strong>Settings → Tools → FoxMock →
+  HTTP Port</strong> and update your client accordingly.</p>
+
+  <hr/>
+
+  <p>That's everything. One route, four scenarios, query-param-driven auto-switching — and the whole
+  setup saved to a single file your team can share. FoxMock handles the rest.</p>
+
+  <div style="margin-top:40px;padding:28px;background:var(--dark-3);border:1px solid var(--border-2);border-radius:var(--radius-lg);text-align:center;">
+    <p style="margin-bottom:8px;font-weight:600;font-size:16px;">Want to mock gRPC too?</p>
+    <p style="margin-bottom:16px;color:var(--text-muted);font-size:15px;">FoxMock supports REST, gRPC, SFTP and SMTP — all inside IntelliJ.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+      <a href="tutorial.html" class="btn-primary">gRPC Tutorial →</a>
+      <a href="docs.html" class="btn-secondary">Full Documentation →</a>
+    </div>
+  </div>
+
+</article>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">
+        <img src="foxmock-logo.svg" alt="FoxMock" class="logo-icon" />
+        <span class="logo-wordmark"><span class="logo-fox">Fox</span><span class="logo-mock">Mock</span></span>
+      </a>
+      <p>A free IntelliJ plugin for mocking REST, gRPC, SFTP and SMTP inside your IDE.</p>
+      <p style="margin-top:10px;">A product by <a href="https://cellops.com" target="_blank">Cellops</a></p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how-it-works">How It Works</a>
+      <a href="https://plugins.jetbrains.com/plugin/31488" target="_blank">JetBrains Marketplace</a>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <a href="docs.html">Documentation</a>
+      <a href="tutorials.html">Tutorials</a>
+      <a href="changelog.html">Changelog</a>
+      <a href="tutorial-rest.html" class="active">REST Tutorial</a>
+      <a href="tutorial.html">gRPC Tutorial</a>
+      <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="mailto:hello@fox-mock.com">Contact</a>
+      <a href="https://cellops.com" target="_blank">Cellops</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Cellops. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="mailto:hello@fox-mock.com">Contact</a>
+      <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav toggle
+  (function () {
+    const btn = document.getElementById('nav-mobile-btn');
+    const menu = document.getElementById('nav-mobile-menu');
+    if (!btn || !menu) return;
+    btn.addEventListener('click', () => {
+      const open = menu.classList.toggle('open');
+      btn.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open);
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    document.addEventListener('click', e => {
+      if (!btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove('open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-label', 'Open menu');
+      }
+    });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      menu.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Open menu');
+    }));
+  })();
+
+  // JetBrains Marketplace install widget
+  MarketplaceWidget.setupMarketplaceWidget('install', 31488, '#tutorial-install-widget');
+</script>
+
+</body>
+</html>

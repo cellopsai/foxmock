@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Changelog — FoxMock</title>
+  <meta name="description" content="FoxMock release history — new features, bug fixes, and improvements for every beta version." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="canonical" href="https://fox-mock.com/changelog.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="FoxMock" />
+  <meta property="og:title" content="Changelog — FoxMock" />
+  <meta property="og:description" content="FoxMock release history — new features, bug fixes, and improvements for every beta version." />
+  <meta property="og:url" content="https://fox-mock.com/changelog.html" />
+  <meta property="og:image" content="https://fox-mock.com/og-image.png" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Cellops" />
+  <meta name="theme-color" content="#0B0B0F" />
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://plugins.jetbrains.com/assets/scripts/mp-widget.js"></script>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <img src="foxmock-logo.svg" alt="FoxMock" class="logo-icon" />
+      <span class="logo-wordmark"><span class="logo-fox">Fox</span><span class="logo-mock">Mock</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how-it-works">How It Works</a>
+      <a href="docs.html">Docs</a>
+      <a href="tutorials.html">Tutorials</a>
+      <div class="nav-sep"></div>
+      <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+      <a href="https://plugins.jetbrains.com/plugin/31488" target="_blank" class="btn-nav">Install Free</a>
+    </div>
+    <button class="nav-mobile-btn" id="nav-mobile-btn" aria-label="Open menu" aria-expanded="false">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </div>
+  <div class="nav-mobile-menu" id="nav-mobile-menu">
+    <a href="index.html#features">Features</a>
+    <a href="index.html#how-it-works">How It Works</a>
+    <a href="docs.html">Docs</a>
+    <a href="tutorials.html">Tutorials</a>
+    <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+    <a href="https://plugins.jetbrains.com/plugin/31488" target="_blank" class="btn-mobile-install">Install Free</a>
+  </div>
+</nav>
+
+<!-- CHANGELOG -->
+<article class="article-wrap">
+
+  <div class="article-meta">
+    <span class="article-tag">Releases</span>
+    <span class="article-date">Updated May 2026</span>
+  </div>
+
+  <h1>Changelog</h1>
+  <p class="article-intro">All notable changes to FoxMock are documented here. FoxMock is currently in free public beta — every feature is included at no cost.</p>
+
+  <hr/>
+
+  <!-- BETA.4 -->
+  <div class="cl-release">
+    <div class="cl-release-header">
+      <span class="cl-version">1.0.0-beta.3</span>
+      <span class="cl-badge new">Latest</span>
+      <span class="cl-date">May 18, 2026</span>
+    </div>
+
+    <h3>gRPC Scenario Management — Full Parity with REST</h3>
+    <ul>
+      <li><strong>Enabled / disabled flag per gRPC scenario</strong> — uncheck <em>Enabled</em> in the Configure dialog to take a scenario out of rotation without deleting it. Disabled scenarios appear gray and italic and are skipped at all three resolution tiers.</li>
+      <li><strong>Conditions tab in gRPC Configure dialog</strong> — add, edit, and remove match conditions (Body JSONPath, Body Regex, Body Exact) directly in the gRPC scenario editor, with the same UX as the REST panel.</li>
+      <li><strong>Priority spinner</strong> — control the evaluation order of conditional gRPC scenarios; lower number = higher priority.</li>
+      <li><strong>Visual role badges</strong> — <code>●</code> active fallback, <code>⚡</code> conditional, <code>⚡●</code> both, dimmed = disabled. Badge rendering is now consistent across REST and gRPC panels.</li>
+      <li><strong>Scenario rename</strong> — rename a gRPC scenario from the Configure dialog name field without recreating it.</li>
+      <li><strong>Three-tier resolution fully enforced for gRPC</strong> — the enabled flag is checked before a conditional scenario can win Tier 1; disabled scenarios can no longer accidentally fire.</li>
+    </ul>
+
+    <h3>gRPC — Save / Load Config</h3>
+    <ul>
+      <li><strong>Save Config</strong> button in the gRPC panel exports all services, methods, scenarios, conditions, and priorities to a <code>.foxmock-grpc</code> JSON file.</li>
+      <li><strong>Load Config</strong> button restores the full scenario set from a <code>.foxmock-grpc</code> file. Methods not found in the currently loaded <code>.proto</code> are skipped and listed in the confirmation dialog.</li>
+      <li>Commit <code>.foxmock-grpc</code> alongside your <code>.proto</code> files — the whole team loads the same mock setup in two clicks.</li>
+    </ul>
+
+    <h3>HTTP Mock Panel</h3>
+    <ul>
+      <li><strong>📖 Tutorial button</strong> — opens the <em>Mock REST APIs with Query Params &amp; Scenarios</em> tutorial in the default browser directly from the HTTP Mock panel toolbar.</li>
+    </ul>
+
+    <h3>UI Redesign — IntelliJ-Style Panel Layout</h3>
+    <ul>
+      <li><strong>Flat section headers</strong> — all four mock panels (HTTP, gRPC, SFTP, SMTP) now use bold 12 pt labels with a 1 px theme-aware divider instead of raised titled borders, matching standard IntelliJ tool window style.</li>
+      <li><strong>Inline connection info strip</strong> — server address, port, and credentials shown in a compact gray strip immediately below the toolbar.</li>
+      <li><strong>HTTP — vertical split</strong> — routes and request log are always visible in a <code>OnePixelSplitter</code> with a draggable divider; no tab switching required.</li>
+      <li><strong>HTTP — flat route table</strong> — one row per route shows method, path, and the active scenario name inline; accordion expansion is gone.</li>
+      <li><strong>HTTP — group collapse / expand</strong> — single-click a group header to collapse (▶) or expand (▼) it; double-click still opens the rename dialog.</li>
+      <li><strong>HTTP — smart search</strong> — IntelliJ <code>SearchTextField</code> replaces method-filter chips; understands <code>GET</code>, <code>/api/users</code>, or <code>POST /orders</code> queries.</li>
+      <li><strong>SFTP</strong> — "Add File" and "Refresh" moved into the Mock Files section header.</li>
+      <li><strong>gRPC</strong> — "Load Proto" moved into the Proto Files section header.</li>
+      <li><strong>SMTP</strong> — "Clear Inbox" moved into the Inbox section header.</li>
+      <li><strong>All panels</strong> — "Clear" button moved into the log section header.</li>
+    </ul>
+
+    <h3>New Feature — CLI AI Provider (No API Key Required)</h3>
+    <ul>
+      <li>Added a <strong>CLI</strong> AI provider that pipes the generation prompt to any AI command-line tool already installed on your machine — no API key or cloud account needed.</li>
+      <li>Supported out of the box: <code>claude</code>, <code>ollama run &lt;model&gt;</code>, <code>llm</code>, <code>sgpt</code>, <code>aichat</code>, or any custom shell command that reads from stdin and writes to stdout.</li>
+      <li><strong>Auto-detect</strong> — click <em>Detect available CLIs…</em> in Settings → Tools → FoxMock to scan your PATH and pick from found tools.</li>
+    </ul>
+
+    <h3>Richer AI Context for HTTP Routes</h3>
+    <ul>
+      <li>When the CLI provider is active, FoxMock scans Java and Kotlin source files in the open project and automatically includes matching controller source code in the prompt — giving the model accurate field names and business context.</li>
+      <li>Controller detection matches on route path and Spring MVC / JAX-RS annotations.</li>
+    </ul>
+  </div>
+
+  <hr/>
+
+  <!-- BETA.2 -->
+  <div class="cl-release">
+    <div class="cl-release-header">
+      <span class="cl-version">1.0.0-beta.2</span>
+      <span class="cl-date">April 2026</span>
+    </div>
+
+    <h3>Bug Fix — Conditional Scenario Auto-Matching</h3>
+    <ul>
+      <li>Fixed a critical bug where setting a scenario as the default fallback incorrectly disabled all other scenarios including conditional ones — causing Tier 1 auto-matching to never fire.</li>
+    </ul>
+
+    <h3>Richer Request Inspector</h3>
+    <ul>
+      <li>HTTP log now shows query string, matched scenario name, and request body as indented detail lines beneath each transaction.</li>
+      <li>gRPC log now shows proto request and response types per call.</li>
+      <li>Errors rendered on a bold-red line with <code>✕</code> prefix across HTTP, gRPC, and SFTP inspectors.</li>
+      <li>Log panels replaced with a styled console view — monospaced font, IDE-theme background, syntax-coloured HTTP methods and status codes (green 2xx, orange 4xx, red 5xx).</li>
+    </ul>
+
+    <h3>UI Polish &amp; Discoverability</h3>
+    <ul>
+      <li>All split panes use a 1 px theme-aware divider consistent with the IntelliJ UI.</li>
+      <li><code>.fmcoll.json</code> collection files registered as a JetBrains file type — IDEs without FoxMock installed will suggest the plugin automatically when a collection file is opened.</li>
+      <li>Non-intrusive rating prompt appears once after 10 successful mock responses.</li>
+    </ul>
+  </div>
+
+  <hr/>
+
+  <!-- BETA.1 -->
+  <div class="cl-release">
+    <div class="cl-release-header">
+      <span class="cl-version">1.0.0-beta.1</span>
+      <span class="cl-badge">Initial Beta</span>
+      <span class="cl-date">April 2026</span>
+    </div>
+
+    <p>First public beta release of FoxMock.</p>
+
+    <h3>REST / HTTP Mock Server</h3>
+    <ul>
+      <li>Dynamic routing with path variables (<code>{name}</code>) and wildcards</li>
+      <li>Multiple named scenarios per route — switch without restarting</li>
+      <li>Per-scenario status code, response body, custom headers, and artificial delay</li>
+      <li>Route enable/disable toggle and drag-and-drop route groups</li>
+      <li>Conditional scenario matching: query params, headers, request body (JSONPath, Regex, Exact)</li>
+      <li>Three-tier resolution: conditional → manually activated → first enabled</li>
+      <li>OpenAPI 3.0 / Swagger 2.0 import — generates routes and scenarios from spec</li>
+      <li>Enum query params expand into one scenario per allowed value with pre-wired conditions</li>
+    </ul>
+
+    <h3>gRPC Mock Server</h3>
+    <ul>
+      <li>Load <code>.proto</code> files and mock individual unary RPC methods</li>
+      <li>Multiple named scenarios per method with one-click switching</li>
+      <li>Live gRPC request inspector</li>
+    </ul>
+
+    <h3>SMTP Mock Server</h3>
+    <ul>
+      <li>Local SMTP server for testing email sending — inspect subject, headers, and body</li>
+      <li>Configurable port and credentials</li>
+    </ul>
+
+    <h3>SFTP Mock Server</h3>
+    <ul>
+      <li>Local SFTP server with configurable port, credentials, and root directory</li>
+      <li>Live SFTP request inspector</li>
+    </ul>
+
+    <h3>AI Response Generation</h3>
+    <ul>
+      <li>Providers: OpenAI, Claude (Anthropic), Gemini (Google), Ollama (local), CLI</li>
+      <li>API keys stored securely in the OS keychain via IntelliJ PasswordSafe</li>
+    </ul>
+
+    <h3>Developer Experience</h3>
+    <ul>
+      <li>Dashboard with one-click Start All / Stop All</li>
+      <li>cURL export from any route dialog</li>
+      <li>Collections — save/load sets of routes as <code>.fmcoll.json</code> files with per-route conflict resolution</li>
+      <li>Keyboard shortcuts: <code>Alt+Shift+F</code> start all, <code>Alt+Shift+X</code> stop all</li>
+      <li>Dynamically loadable — no IDE restart required after install</li>
+    </ul>
+  </div>
+
+  <hr/>
+
+  <div style="margin-top:32px;text-align:center;">
+    <div id="cl-install-widget"></div>
+    <p style="margin-top:16px;font-size:14px;color:var(--text-muted);">
+      Free during beta · Works with all JetBrains IDEs
+    </p>
+  </div>
+
+</article>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">
+        <img src="foxmock-logo.svg" alt="FoxMock" class="logo-icon" />
+        <span class="logo-wordmark"><span class="logo-fox">Fox</span><span class="logo-mock">Mock</span></span>
+      </a>
+      <p>A free IntelliJ plugin for mocking REST, gRPC, SFTP and SMTP inside your IDE.</p>
+      <p style="margin-top:10px;">A product by <a href="https://cellops.com" target="_blank">Cellops</a></p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how-it-works">How It Works</a>
+      <a href="https://plugins.jetbrains.com/plugin/31488" target="_blank">JetBrains Marketplace</a>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <a href="docs.html">Documentation</a>
+      <a href="tutorials.html">Tutorials</a>
+      <a href="changelog.html" class="active">Changelog</a>
+      <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="mailto:hello@fox-mock.com">Contact</a>
+      <a href="https://cellops.com" target="_blank">Cellops</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Cellops. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="mailto:hello@fox-mock.com">Contact</a>
+      <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    const btn = document.getElementById('nav-mobile-btn');
+    const menu = document.getElementById('nav-mobile-menu');
+    if (!btn || !menu) return;
+    btn.addEventListener('click', () => {
+      const open = menu.classList.toggle('open');
+      btn.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open);
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    document.addEventListener('click', e => {
+      if (!btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove('open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-label', 'Open menu');
+      }
+    });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      menu.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Open menu');
+    }));
+  })();
+
+  MarketplaceWidget.setupMarketplaceWidget('install', 31488, '#cl-install-widget');
+</script>
+
+</body>
+</html>
