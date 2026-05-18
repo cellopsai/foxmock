@@ -154,7 +154,11 @@
   <p>After restarting, open the <strong>FoxMock</strong> tool window at the bottom of the IDE
   (or <strong>View → Tool Windows → FoxMock</strong>) and select the <strong>HTTP Mock</strong> tab.</p>
 
-  <div class="img-placeholder">screenshot-placeholder-rest-01-panel.png</div>
+  <img
+    src="assets/tutorial-rest/screenshot-placeholder-rest-01-panel.png"
+    alt="FoxMock HTTP Mock tab with an empty route table"
+    class="article-screenshot"
+  />
   <p class="img-caption">FoxMock tool window — HTTP Mock tab with empty route table</p>
 
   <hr/>
@@ -187,7 +191,11 @@
   <p>Click <strong>Start Server</strong>. The status label changes to
   <strong>Status: Running — port 8090</strong>.</p>
 
-  <div class="img-placeholder">screenshot-placeholder-rest-02-running.png</div>
+  <img
+    src="assets/tutorial-rest/screenshot-placeholder-rest-02-running.png"
+    alt="HTTP Mock panel showing running status and one route in the table"
+    class="article-screenshot"
+  />
   <p class="img-caption">HTTP Mock panel — Status: Running, one route in the table</p>
 
   <p>Test it:</p>
@@ -278,7 +286,11 @@
   <p><strong>slow_response</strong> — Status <code>200</code>, same body as
   <code>laptop_results</code>, <strong>Delay</strong> set to <code>3000</code> ms.</p>
 
-  <div class="img-placeholder">screenshot-placeholder-rest-03-scenarios.png</div>
+  <img
+    src="assets/tutorial-rest/screenshot-placeholder-rest-03-scenarios.png"
+    alt="FoxMock configure dialog showing four scenarios for GET /search"
+    class="article-screenshot"
+  />
   <p class="img-caption">Configure dialog for GET /search — four scenarios in the list</p>
 
   <hr/>
@@ -345,7 +357,11 @@ curl -s "http://localhost:8090/search?q=laptop"
     <li>Click <strong>Save</strong></li>
   </ol>
 
-  <div class="img-placeholder">screenshot-placeholder-rest-05-condition.png</div>
+  <img
+    src="assets/tutorial-rest/screenshot-placeholder-rest-05-condition.png"
+    alt="FoxMock conditions tab configured for a query parameter match"
+    class="article-screenshot"
+  />
   <p class="img-caption">Conditions tab — Query Param / q / Contains / laptop</p>
 
   <p>The scenario now shows a <strong>⚡</strong> badge in the list — indicating it has at least
@@ -514,7 +530,11 @@ curl -s "http://localhost:8090/search?q=phone"</pre>
   <p>The log is your first debugging tool. If the wrong scenario is being served, look at which
   scenario name appears in brackets and compare it with your condition rules.</p>
 
-  <div class="img-placeholder">screenshot-placeholder-rest-06-log.png</div>
+  <img
+    src="assets/tutorial-rest/screenshot-placeholder-rest-06-log.png"
+    alt="FoxMock transaction log showing matched requests and scenarios"
+    class="article-screenshot"
+  />
   <p class="img-caption">Transaction Log — three requests, different scenarios matched</p>
 
   <hr/>

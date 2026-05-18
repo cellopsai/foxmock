@@ -531,19 +531,29 @@ nav {
 }
 
 .demo-body {
-  padding: 60px 40px;
+  padding: 18px;
   min-height: 280px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text-muted);
   font-size: 15px;
+  background:
+    radial-gradient(circle at top left, rgba(255, 107, 53, 0.08), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 42%),
+    var(--dark-2);
 }
 
 .demo-body img {
   width: 100%;
   height: auto;
   display: block;
+}
+
+.demo-screenshot {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: calc(var(--radius-lg) - 6px);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.45);
 }
 
 /* ================================
@@ -1309,6 +1319,15 @@ code {
   font-size: 13px;
   margin: 24px 0;
   font-family: var(--font-mono);
+}
+
+.article-screenshot {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 24px 0;
 }
 
 .img-caption {
