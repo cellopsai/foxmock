@@ -154,11 +154,9 @@
   <p>After restarting, open the <strong>FoxMock</strong> tool window at the bottom of the IDE
   (or <strong>View → Tool Windows → FoxMock</strong>) and select the <strong>HTTP Mock</strong> tab.</p>
 
-  <img
-    src="assets/tutorial-rest/screenshot-placeholder-rest-01-panel.png"
-    alt="FoxMock HTTP Mock tab with an empty route table"
-    class="article-screenshot"
-  />
+  <img src="assets/tutorial-rest/screenshot-placeholder-rest-01-panel.png"
+       alt="FoxMock HTTP Mock panel — empty route table"
+       class="tutorial-screenshot" />
   <p class="img-caption">FoxMock tool window — HTTP Mock tab with empty route table</p>
 
   <hr/>
@@ -191,11 +189,9 @@
   <p>Click <strong>Start Server</strong>. The status label changes to
   <strong>Status: Running — port 8090</strong>.</p>
 
-  <img
-    src="assets/tutorial-rest/screenshot-placeholder-rest-02-running.png"
-    alt="HTTP Mock panel showing running status and one route in the table"
-    class="article-screenshot"
-  />
+  <img src="assets/tutorial-rest/screenshot-placeholder-rest-02-running.png"
+       alt="HTTP Mock panel — Status: Running, route in table"
+       class="tutorial-screenshot" />
   <p class="img-caption">HTTP Mock panel — Status: Running, one route in the table</p>
 
   <p>Test it:</p>
@@ -286,11 +282,9 @@
   <p><strong>slow_response</strong> — Status <code>200</code>, same body as
   <code>laptop_results</code>, <strong>Delay</strong> set to <code>3000</code> ms.</p>
 
-  <img
-    src="assets/tutorial-rest/screenshot-placeholder-rest-03-scenarios.png"
-    alt="FoxMock configure dialog showing four scenarios for GET /search"
-    class="article-screenshot"
-  />
+  <img src="assets/tutorial-rest/screenshot-placeholder-rest-03-scenarios.png"
+       alt="Configure dialog for GET /search — four scenarios in the list"
+       class="tutorial-screenshot" />
   <p class="img-caption">Configure dialog for GET /search — four scenarios in the list</p>
 
   <hr/>
@@ -298,18 +292,23 @@
   <!-- SWITCH SCENARIOS -->
   <h2 id="switch-scenarios">Switch scenarios manually</h2>
 
-  <p>The scenario marked <strong>●</strong> is the one currently being served. To switch:</p>
+  <p>The scenario marked <strong>●</strong> is the one currently being served. You can switch the
+  active scenario at any time — without restarting the server — and the change takes effect on the
+  very next request.</p>
 
-  <p><strong>From the Configure dialog:</strong> select a scenario in the list and click
-  <strong>Set Active</strong>. The ● badge moves immediately — the very next request gets that
-  response.</p>
+  <p><strong>How to switch:</strong></p>
+  <ol>
+    <li>Double-click the route row (or right-click → <strong>Configure…</strong>) to open the
+    Configure dialog</li>
+    <li>Select the scenario you want to activate from the list on the left</li>
+    <li>Click <strong>● Set Active</strong></li>
+    <li>Close the dialog — done. The route table immediately shows the new active scenario name
+    in the <em>Active Scenario</em> column</li>
+  </ol>
 
-  <p><strong>Without opening the dialog:</strong> right-click the route row →
-  <strong>Switch Scenario</strong> → pick from the submenu. This is the fastest way to flip
-  responses during exploratory testing.</p>
-
-  <div class="img-placeholder">screenshot-placeholder-rest-04-switch.png</div>
-  <p class="img-caption">Right-click submenu — Switch Scenario with four options listed</p>
+  <p>The <strong>Active Scenario</strong> column in the route table always reflects the current
+  Tier 2 fallback at a glance, so you never need to open the dialog just to check which scenario
+  is live.</p>
 
   <p>Try it with curl to see the change take effect immediately:</p>
 
@@ -357,11 +356,9 @@ curl -s "http://localhost:8090/search?q=laptop"
     <li>Click <strong>Save</strong></li>
   </ol>
 
-  <img
-    src="assets/tutorial-rest/screenshot-placeholder-rest-05-condition.png"
-    alt="FoxMock conditions tab configured for a query parameter match"
-    class="article-screenshot"
-  />
+  <img src="assets/tutorial-rest/screenshot-placeholder-rest-05-condition.png"
+       alt="Conditions tab — Query Param / q / Contains / laptop"
+       class="tutorial-screenshot" />
   <p class="img-caption">Conditions tab — Query Param / q / Contains / laptop</p>
 
   <p>The scenario now shows a <strong>⚡</strong> badge in the list — indicating it has at least
@@ -530,11 +527,9 @@ curl -s "http://localhost:8090/search?q=phone"</pre>
   <p>The log is your first debugging tool. If the wrong scenario is being served, look at which
   scenario name appears in brackets and compare it with your condition rules.</p>
 
-  <img
-    src="assets/tutorial-rest/screenshot-placeholder-rest-06-log.png"
-    alt="FoxMock transaction log showing matched requests and scenarios"
-    class="article-screenshot"
-  />
+  <img src="assets/tutorial-rest/screenshot-placeholder-rest-06-log.png"
+       alt="Transaction Log — three requests, different scenarios matched"
+       class="tutorial-screenshot" />
   <p class="img-caption">Transaction Log — three requests, different scenarios matched</p>
 
   <hr/>
@@ -656,7 +651,7 @@ curl -s "http://localhost:8090/search?q=phone"</pre>
     <p style="margin-bottom:8px;font-weight:600;font-size:16px;">Want to mock gRPC too?</p>
     <p style="margin-bottom:16px;color:var(--text-muted);font-size:15px;">FoxMock supports REST, gRPC, SFTP and SMTP — all inside IntelliJ.</p>
     <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-      <a href="tutorial.html" class="btn-primary">gRPC Tutorial →</a>
+      <a href="tutorial-grpc.html" class="btn-primary">gRPC Tutorial →</a>
       <a href="docs.html" class="btn-secondary">Full Documentation →</a>
     </div>
   </div>
@@ -685,8 +680,10 @@ curl -s "http://localhost:8090/search?q=phone"</pre>
       <a href="docs.html">Documentation</a>
       <a href="tutorials.html">Tutorials</a>
       <a href="changelog.html">Changelog</a>
-      <a href="tutorial-rest.html" class="active">REST Tutorial</a>
-      <a href="tutorial.html">gRPC Tutorial</a>
+      <a href="tutorial-post.html">POST Body Matching Tutorial</a>
+      <a href="tutorial-rest.html" class="active">GET / Query Params Tutorial</a>
+      <a href="tutorial-conditions.html">Condition Types Tutorial</a>
+      <a href="tutorial-grpc.html">gRPC Tutorial</a>
       <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
     </div>
     <div class="footer-col">

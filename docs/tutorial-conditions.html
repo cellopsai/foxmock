@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Condition Types &amp; Operators — Smart Scenario Routing in FoxMock</title>
+  <meta name="description" content="Learn every condition type in FoxMock — Body JSONPath, Body Regex, Body Exact, Query Param, and Header — plus all four operators. Includes POST, GET, and regex examples." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://fox-mock.com/tutorial-conditions.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="FoxMock" />
+  <meta property="og:title" content="Condition Types &amp; Operators — Smart Scenario Routing in FoxMock" />
+  <meta property="og:description" content="Learn every condition type in FoxMock — Body JSONPath, Body Regex, Body Exact, Query Param, and Header — plus all four operators. Includes POST, GET, and regex examples." />
+  <meta property="og:url" content="https://fox-mock.com/tutorial-conditions.html" />
+  <meta property="og:image" content="https://fox-mock.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="FoxMock Condition Types Tutorial" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Condition Types &amp; Operators — Smart Scenario Routing in FoxMock" />
+  <meta name="twitter:description" content="Every condition type and operator in FoxMock explained with POST, GET, and regex examples." />
+  <meta name="twitter:image" content="https://fox-mock.com/og-image.png" />
+
+  <!-- Extra SEO -->
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Cellops" />
+  <meta name="theme-color" content="#0B0B0F" />
+
+  <!-- JSON-LD: TechArticle + BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Condition Types and Operators — Smart Scenario Routing in FoxMock",
+    "description": "Learn every condition type in FoxMock — Body JSONPath, Body Regex, Body Exact, Query Param, and Header — plus all four operators. Includes POST, GET, and regex examples.",
+    "url": "https://fox-mock.com/tutorial-conditions.html",
+    "author": { "@type": "Organization", "name": "Cellops", "url": "https://cellops.com" },
+    "publisher": { "@type": "Organization", "name": "Cellops", "url": "https://cellops.com" },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://fox-mock.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Tutorials", "item": "https://fox-mock.com/tutorials.html" },
+        { "@type": "ListItem", "position": 3, "name": "Condition Types", "item": "https://fox-mock.com/tutorial-conditions.html" }
+      ]
+    }
+  }
+  </script>
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://plugins.jetbrains.com/assets/scripts/mp-widget.js"></script>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <img src="foxmock-logo.svg" alt="FoxMock" class="logo-icon" />
+      <span class="logo-wordmark"><span class="logo-fox">Fox</span><span class="logo-mock">Mock</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how-it-works">How It Works</a>
+      <a href="docs.html">Docs</a>
+      <a href="tutorials.html">Tutorials</a>
+      <div class="nav-sep"></div>
+      <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+      <a href="https://plugins.jetbrains.com/plugin/31488" target="_blank" class="btn-nav">Install Free</a>
+    </div>
+    <button class="nav-mobile-btn" id="nav-mobile-btn" aria-label="Open menu" aria-expanded="false">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </div>
+  <div class="nav-mobile-menu" id="nav-mobile-menu">
+    <a href="index.html#features">Features</a>
+    <a href="index.html#how-it-works">How It Works</a>
+    <a href="docs.html">Docs</a>
+    <a href="tutorials.html">Tutorials</a>
+    <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+    <a href="https://plugins.jetbrains.com/plugin/31488" target="_blank" class="btn-mobile-install">Install Free</a>
+  </div>
+</nav>
+
+<!-- ARTICLE -->
+<article class="article-wrap">
+
+  <div class="article-meta">
+    <span class="article-tag">Tutorial</span>
+    <span class="article-tag" style="color:#FF6B35;background:rgba(255,107,53,0.08);border-color:rgba(255,107,53,0.3);">REST</span>
+    <span class="article-tag" style="color:#A78BFA;background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.3);">gRPC</span>
+    <span class="article-date">May 2026 · 12 min read</span>
+  </div>
+
+  <h1>Condition Types &amp; Operators — Smart Scenario Routing in FoxMock</h1>
+
+  <p class="article-intro">
+    Conditions are what turn a mock from a static response machine into something intelligent.
+    Without conditions, you manually flip the active scenario every time the test changes.
+    With conditions, FoxMock reads the incoming request — its body, query parameters, or headers —
+    and automatically serves the right scenario.<br/><br/>
+    This tutorial is a complete, practical guide to every condition type FoxMock supports, every
+    operator you can use, and how to combine them for precise automatic routing.
+  </p>
+
+  <hr/>
+
+  <!-- TOC -->
+  <div class="article-toc">
+    <strong>In this tutorial</strong>
+    <ol>
+      <li><a href="#how-conditions-work">How conditions work</a></li>
+      <li><a href="#condition-types">The five condition types</a></li>
+      <li><a href="#operators">The four operators</a></li>
+      <li><a href="#body-jsonpath">Body JSONPath — match a specific field</a></li>
+      <li><a href="#body-regex">Body Regex — flexible pattern matching</a></li>
+      <li><a href="#body-exact">Body Exact — fixed payload matching</a></li>
+      <li><a href="#query-param">Query Param conditions — GET routing by URL</a></li>
+      <li><a href="#header">Header conditions — auth, tenant, version</a></li>
+      <li><a href="#and-logic">Multiple conditions on one scenario (AND logic)</a></li>
+      <li><a href="#priority">Priority between scenarios</a></li>
+      <li><a href="#path-regex">Regex in route paths</a></li>
+      <li><a href="#grpc">Conditions in gRPC</a></li>
+      <li><a href="#troubleshooting">Troubleshooting</a></li>
+    </ol>
+  </div>
+
+  <hr/>
+
+  <!-- HOW CONDITIONS WORK -->
+  <h2 id="how-conditions-work">How conditions work</h2>
+
+  <p>Every route in FoxMock can have multiple <strong>scenarios</strong>. Only one scenario is
+  served for any given request. Conditions let you configure exactly which scenario wins
+  automatically, based on what is in the request.</p>
+
+  <p>When a request arrives, FoxMock runs through a three-tier resolution process:</p>
+
+  <div class="tier-block">
+    <div class="tier">
+      <div class="tier-num">1</div>
+      <div class="tier-body">
+        <strong>Conditional scenarios (⚡)</strong> — evaluated in priority order (lowest number
+        first). FoxMock checks each condition on a scenario. If <em>all</em> conditions pass, that
+        scenario wins and is served immediately. Subsequent scenarios are not evaluated.
+      </div>
+    </div>
+    <div class="tier">
+      <div class="tier-num">2</div>
+      <div class="tier-body">
+        <strong>Manually active scenario (●)</strong> — if no conditional scenario matched, the
+        scenario you last activated manually via <em>Set Active</em> is served. This is your
+        default happy path.
+      </div>
+    </div>
+    <div class="tier">
+      <div class="tier-num">3</div>
+      <div class="tier-body">
+        <strong>First enabled scenario</strong> — safety net. If the active scenario is disabled or
+        unset, FoxMock falls back to the first enabled scenario so you never get an unexpected 404.
+      </div>
+    </div>
+  </div>
+
+  <p>Conditions only matter at Tier 1. A scenario without any conditions never participates in
+  Tier 1 — it can only win at Tier 2 or 3. A scenario <em>with</em> at least one condition shows
+  a <strong>⚡</strong> badge in the list.</p>
+
+  <hr/>
+
+  <!-- CONDITION TYPES -->
+  <h2 id="condition-types">The five condition types</h2>
+
+  <div class="condition-ref-table">
+    <div class="crt-row header">
+      <span>Type</span><span>What it inspects</span><span>Works on</span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Body JSONPath</strong></span>
+      <span>A specific field inside the JSON request body, addressed by a JSONPath expression</span>
+      <span>REST, gRPC</span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Body Regex</strong></span>
+      <span>The entire raw request body matched against a regular expression</span>
+      <span>REST, gRPC</span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Body Exact</strong></span>
+      <span>The entire raw request body must equal the condition value exactly</span>
+      <span>REST, gRPC</span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Query Param</strong></span>
+      <span>A URL query parameter value (e.g. <code>?page=2</code>)</span>
+      <span>REST only</span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Header</strong></span>
+      <span>A request header value (e.g. <code>Authorization</code>, <code>X-Tenant-Id</code>)</span>
+      <span>REST only</span>
+    </div>
+  </div>
+
+  <p>Query Param and Header conditions are only available for REST (HTTP) routes because gRPC does
+  not use URL query strings or HTTP headers in the same way. See the
+  <a href="#grpc">gRPC section</a> for details.</p>
+
+  <hr/>
+
+  <!-- OPERATORS -->
+  <h2 id="operators">The four operators</h2>
+
+  <p>Once FoxMock extracts a value (the field, param, or header), it applies an operator to
+  decide whether the condition passes.</p>
+
+  <div class="condition-ref-table">
+    <div class="crt-row header">
+      <span>Operator</span><span>Passes when…</span><span>Example</span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Equals</strong></span>
+      <span>Extracted value is exactly equal to the condition value (case-sensitive)</span>
+      <span><code>$.status</code> Equals <code>active</code></span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Contains</strong></span>
+      <span>Extracted value contains the condition value as a substring</span>
+      <span>Header <code>Authorization</code> Contains <code>expired</code></span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Matches (regex)</strong></span>
+      <span>Extracted value fully matches the regular expression in the condition value</span>
+      <span><code>$.quantity</code> Matches <code>[1-9][0-9]*</code></span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Exists</strong></span>
+      <span>The field, parameter, or header is present (has any value). The condition value field is ignored.</span>
+      <span>Query Param <code>debug</code> Exists</span>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <strong>Case sensitivity:</strong> <em>Equals</em> and <em>Contains</em> are case-sensitive.
+    Use <em>Matches (regex)</em> with the <code>(?i)</code> prefix for case-insensitive matching —
+    for example <code>(?i)sku-out</code> matches <code>SKU-OUT</code>, <code>sku-out</code>, and
+    <code>Sku-Out</code>.
+  </div>
+
+  <hr/>
+
+  <!-- BODY JSONPATH -->
+  <h2 id="body-jsonpath">Body JSONPath — match a specific field</h2>
+
+  <p>JSONPath is the most targeted condition type for JSON bodies. It lets you read exactly one
+  field from the request payload, no matter how deeply nested, and apply an operator to its value.</p>
+
+  <h3>JSONPath quick reference</h3>
+
+  <div class="condition-ref-table">
+    <div class="crt-row header">
+      <span>Expression</span><span>Reads</span><span>Example payload</span>
+    </div>
+    <div class="crt-row">
+      <span><code>$.action</code></span>
+      <span>Top-level field</span>
+      <span><code>{"action": "cancel"}</code></span>
+    </div>
+    <div class="crt-row">
+      <span><code>$.user.role</code></span>
+      <span>Nested field</span>
+      <span><code>{"user": {"role": "admin"}}</code></span>
+    </div>
+    <div class="crt-row">
+      <span><code>$.items[0].sku</code></span>
+      <span>First array element</span>
+      <span><code>{"items": [{"sku": "A1"}]}</code></span>
+    </div>
+    <div class="crt-row">
+      <span><code>$.items.length()</code></span>
+      <span>Array length</span>
+      <span><code>{"items": [{}, {}, {}]}</code> → <code>3</code></span>
+    </div>
+    <div class="crt-row">
+      <span><code>$.meta.priority</code></span>
+      <span>Deeply nested value</span>
+      <span><code>{"meta": {"priority": "high"}}</code></span>
+    </div>
+  </div>
+
+  <h3>Example: POST /api/orders — route by action field</h3>
+
+  <p>Suppose your order endpoint handles three operations distinguished by an <code>action</code>
+  field in the POST body:</p>
+
+<pre>POST /api/orders
+{"action": "create",  "productId": "SKU-001", "quantity": 2}
+{"action": "cancel",  "orderId": "ORD-8821"}
+{"action": "reorder", "orderId": "ORD-8821"}</pre>
+
+  <p>Create a route for <code>POST /api/orders</code> with three scenarios. For each scenario,
+  open the <strong>Conditions</strong> tab and add one condition:</p>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Scenario</span><span>Type</span><span>Key / Path</span><span>Operator</span><span>Value</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>order_created</code></span>
+      <span>Body JSONPath</span>
+      <span><code>$.action</code></span>
+      <span>Equals</span>
+      <span><code>create</code></span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>order_cancelled</code></span>
+      <span>Body JSONPath</span>
+      <span><code>$.action</code></span>
+      <span>Equals</span>
+      <span><code>cancel</code></span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>order_reordered</code></span>
+      <span>Body JSONPath</span>
+      <span><code>$.action</code></span>
+      <span>Equals</span>
+      <span><code>reorder</code></span>
+    </div>
+  </div>
+
+  <p>Test it:</p>
+
+<pre># Triggers order_cancelled
+curl -s -X POST "http://localhost:8089/api/orders" \
+  -H "Content-Type: application/json" \
+  -d '{"action": "cancel", "orderId": "ORD-8821"}'
+# → 200 {"message": "Order ORD-8821 cancelled"}
+
+# Triggers order_created
+curl -s -X POST "http://localhost:8089/api/orders" \
+  -H "Content-Type: application/json" \
+  -d '{"action": "create", "productId": "SKU-001", "quantity": 2}'
+# → 201 {"orderId": "ORD-9902", "status": "confirmed"}</pre>
+
+  <h3>Using Matches (regex) with JSONPath</h3>
+
+  <p>JSONPath + Matches (regex) is powerful when the field value itself needs pattern matching.
+  Example — flag any order with a priority code that starts with <code>URGENT-</code>:</p>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Type</span><span>Key / Path</span><span>Operator</span><span>Value</span>
+    </div>
+    <div class="scenario-table-row">
+      <span>Body JSONPath</span>
+      <span><code>$.priority</code></span>
+      <span>Matches (regex)</span>
+      <span><code>URGENT-.*</code></span>
+    </div>
+  </div>
+
+<pre># Triggers the "urgent_order" scenario
+curl -s -X POST "http://localhost:8089/api/orders" \
+  -H "Content-Type: application/json" \
+  -d '{"action": "create", "priority": "URGENT-001", "productId": "SKU-999"}'</pre>
+
+  <h3>Using Exists with JSONPath</h3>
+
+  <p>Use <em>Exists</em> to check whether a field is present at all, without caring about
+  its value. Useful for feature-flag fields, optional parameters, or discriminating between
+  two payload shapes:</p>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Scenario</span><span>Type</span><span>Key / Path</span><span>Operator</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>bulk_order</code></span>
+      <span>Body JSONPath</span>
+      <span><code>$.items</code></span>
+      <span>Exists</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>single_order</code></span>
+      <span>Body JSONPath</span>
+      <span><code>$.productId</code></span>
+      <span>Exists</span>
+    </div>
+  </div>
+
+  <p>A body with <code>"items": [...]</code> triggers <code>bulk_order</code>. A body with
+  <code>"productId": "..."</code> (and no <code>items</code>) triggers <code>single_order</code>.
+  Give <code>bulk_order</code> a lower priority number so it is checked first.</p>
+
+  <hr/>
+
+  <!-- BODY REGEX -->
+  <h2 id="body-regex">Body Regex — flexible pattern matching</h2>
+
+  <p>Body Regex runs a single regular expression against the <em>entire raw body string</em>.
+  It is the right choice when:</p>
+  <ul>
+    <li>The body is not JSON (plain text, XML, form-encoded)</li>
+    <li>You want to check if a certain string appears anywhere in the body</li>
+    <li>You need to match multiple conditions in one expression</li>
+    <li>You want to match the <em>absence</em> of a field</li>
+  </ul>
+
+  <p>The operator for Body Regex is almost always <strong>Matches (regex)</strong>. The expression
+  must match the entire body (FoxMock uses Java's <code>Pattern.matches()</code> which anchors
+  the pattern), so use <code>.*</code> around the part you care about.</p>
+
+  <h3>Example: detect missing required field</h3>
+
+  <p>Return a 422 when <code>productId</code> is missing from the body:</p>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Scenario</span><span>Type</span><span>Operator</span><span>Value (regex)</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>missing_product</code></span>
+      <span>Body Regex</span>
+      <span>Matches (regex)</span>
+      <span><code>^(?!.*"productId")[\s\S]*$</code></span>
+    </div>
+  </div>
+
+  <p>The negative lookahead <code>(?!.*"productId")</code> makes the pattern match any body that
+  does <em>not</em> contain the string <code>"productId"</code>.</p>
+
+<pre># No productId field → triggers missing_product (422)
+curl -s -X POST "http://localhost:8089/api/orders" \
+  -H "Content-Type: application/json" \
+  -d '{"quantity": 5}'
+# → 422 {"error": "Validation failed", "fields": {"productId": "required"}}</pre>
+
+  <h3>Example: match a specific value anywhere in the body</h3>
+
+  <p>Trigger an <code>out_of_stock</code> scenario whenever the body contains
+  <code>SKU-OUT</code> anywhere — regardless of which field it's in:</p>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Scenario</span><span>Type</span><span>Operator</span><span>Value (regex)</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>out_of_stock</code></span>
+      <span>Body Regex</span>
+      <span>Matches (regex)</span>
+      <span><code>.*SKU-OUT.*</code></span>
+    </div>
+  </div>
+
+  <h3>Example: match plain-text or XML bodies</h3>
+
+  <p>For non-JSON bodies, Body Regex is the only body condition type that works reliably.
+  Example — trigger a specific scenario when a SOAP body contains <code>&lt;CancelOrder&gt;</code>:</p>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Scenario</span><span>Type</span><span>Operator</span><span>Value (regex)</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>cancel_soap</code></span>
+      <span>Body Regex</span>
+      <span>Matches (regex)</span>
+      <span><code>[\s\S]*&lt;CancelOrder&gt;[\s\S]*</code></span>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>Tip — multiline bodies:</strong> Use <code>[\s\S]*</code> instead of <code>.*</code>
+    when the body spans multiple lines, because <code>.</code> does not match newlines by default
+    in Java regex.
+  </div>
+
+  <hr/>
+
+  <!-- BODY EXACT -->
+  <h2 id="body-exact">Body Exact — fixed payload matching</h2>
+
+  <p>Body Exact is the simplest type: FoxMock compares the entire raw request body against your
+  condition value character for character. Whitespace counts. <code>{"a":1}</code> and
+  <code>{ "a": 1 }</code> are different.</p>
+
+  <p>It is most useful in unit tests where the same serializer always produces the same output,
+  and you want the tightest possible match with zero ambiguity.</p>
+
+  <h3>Example: ping / health check</h3>
+
+<pre># Your health-check service always sends exactly this
+curl -s -X POST "http://localhost:8089/api/ping" \
+  -H "Content-Type: application/json" \
+  -d '{"type":"ping"}'</pre>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Scenario</span><span>Type</span><span>Operator</span><span>Value</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>pong</code></span>
+      <span>Body Exact</span>
+      <span>Equals</span>
+      <span><code>{"type":"ping"}</code></span>
+    </div>
+  </div>
+
+  <p>Any variation in spacing, field order, or encoding will not match. For flexibility, use
+  Body JSONPath instead.</p>
+
+  <hr/>
+
+  <!-- QUERY PARAM -->
+  <h2 id="query-param">Query Param conditions — GET routing by URL</h2>
+
+  <p>Query Param conditions read values from the URL query string. They are ideal for GET
+  endpoints where there is no request body, and the response depends on parameters like
+  <code>status</code>, <code>page</code>, <code>version</code>, or <code>userId</code>.</p>
+
+  <h3>Example: GET /api/orders — route by status filter</h3>
+
+  <p>Create a route for <code>GET /api/orders</code> with three scenarios:</p>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Scenario</span><span>Type</span><span>Key (param name)</span><span>Operator</span><span>Value</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>pending_orders</code></span>
+      <span>Query Param</span>
+      <span><code>status</code></span>
+      <span>Equals</span>
+      <span><code>pending</code></span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>completed_orders</code></span>
+      <span>Query Param</span>
+      <span><code>status</code></span>
+      <span>Equals</span>
+      <span><code>completed</code></span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>all_orders</code> (active ●)</span>
+      <span>—</span>
+      <span>—</span>
+      <span>—</span>
+      <span>—</span>
+    </div>
+  </div>
+
+<pre># Triggers pending_orders
+curl -s "http://localhost:8089/api/orders?status=pending"
+# → [{"orderId":"ORD-001","status":"pending"}, ...]
+
+# Triggers completed_orders
+curl -s "http://localhost:8089/api/orders?status=completed"
+# → [{"orderId":"ORD-800","status":"completed"}, ...]
+
+# No matching condition → falls back to all_orders (active ●)
+curl -s "http://localhost:8089/api/orders"
+# → [all orders list]</pre>
+
+  <h3>Example: pagination — route by page number range</h3>
+
+  <p>Return an empty page when the caller requests a page beyond the data set:</p>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Scenario</span><span>Type</span><span>Key</span><span>Operator</span><span>Value</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>empty_page</code></span>
+      <span>Query Param</span>
+      <span><code>page</code></span>
+      <span>Matches (regex)</span>
+      <span><code>[5-9]|[1-9][0-9]+</code></span>
+    </div>
+  </div>
+
+  <p>The regex <code>[5-9]|[1-9][0-9]+</code> matches any single digit 5–9 or any number with
+  two or more digits (10+). Pages 1–4 fall through to the active scenario.</p>
+
+<pre>curl -s "http://localhost:8089/api/orders?page=7"
+# → {"items": [], "page": 7, "total": 0}
+
+curl -s "http://localhost:8089/api/orders?page=2"
+# → {"items": [...], "page": 2, "total": 42}</pre>
+
+  <h3>Example: check a parameter exists at all</h3>
+
+  <p>Return a debug response when the <code>debug</code> param is present, regardless of its value:</p>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Scenario</span><span>Type</span><span>Key</span><span>Operator</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>debug_response</code></span>
+      <span>Query Param</span>
+      <span><code>debug</code></span>
+      <span>Exists</span>
+    </div>
+  </div>
+
+<pre>curl -s "http://localhost:8089/api/orders?debug=true"
+curl -s "http://localhost:8089/api/orders?debug=1"
+curl -s "http://localhost:8089/api/orders?debug"
+# All three trigger debug_response</pre>
+
+  <hr/>
+
+  <!-- HEADER CONDITIONS -->
+  <h2 id="header">Header conditions — auth, tenant, version</h2>
+
+  <p>Header conditions inspect request headers. This is how you simulate authentication
+  failures, multi-tenant routing, API versioning, and feature flags — all based on what the
+  caller sends in the header, not the body.</p>
+
+  <h3>Example: simulate an expired token</h3>
+
+<pre># Invalid token → triggers unauthorized scenario
+curl -s -X POST "http://localhost:8089/api/orders" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer expired_abc123" \
+  -d '{"productId": "SKU-001", "quantity": 2}'
+# → 401 {"error": "Unauthorized"}</pre>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Scenario</span><span>Type</span><span>Key (header name)</span><span>Operator</span><span>Value</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>unauthorized</code></span>
+      <span>Header</span>
+      <span><code>Authorization</code></span>
+      <span>Contains</span>
+      <span><code>expired</code></span>
+    </div>
+  </div>
+
+  <p>Any request carrying a token that contains the word <code>expired</code> gets a 401 — the
+  body is never inspected.</p>
+
+  <h3>Example: multi-tenant routing by X-Tenant-Id</h3>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Scenario</span><span>Type</span><span>Key</span><span>Operator</span><span>Value</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>tenant_acme</code></span>
+      <span>Header</span>
+      <span><code>X-Tenant-Id</code></span>
+      <span>Equals</span>
+      <span><code>acme</code></span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>tenant_globex</code></span>
+      <span>Header</span>
+      <span><code>X-Tenant-Id</code></span>
+      <span>Equals</span>
+      <span><code>globex</code></span>
+    </div>
+  </div>
+
+<pre>curl -s "http://localhost:8089/api/config" -H "X-Tenant-Id: acme"
+# → {"theme": "blue", "plan": "enterprise"}
+
+curl -s "http://localhost:8089/api/config" -H "X-Tenant-Id: globex"
+# → {"theme": "green", "plan": "starter"}</pre>
+
+  <h3>Example: API versioning by Accept header</h3>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Scenario</span><span>Type</span><span>Key</span><span>Operator</span><span>Value</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>v2_response</code></span>
+      <span>Header</span>
+      <span><code>Accept</code></span>
+      <span>Contains</span>
+      <span><code>application/vnd.api.v2</code></span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>v1_response</code> (active ●)</span>
+      <span>—</span>
+      <span>—</span>
+      <span>—</span>
+      <span>—</span>
+    </div>
+  </div>
+
+<pre>curl -s "http://localhost:8089/api/users/1" \
+  -H "Accept: application/vnd.api.v2+json"
+# → v2 response shape
+
+curl -s "http://localhost:8089/api/users/1"
+# → v1 response shape (active fallback)</pre>
+
+  <hr/>
+
+  <!-- AND LOGIC -->
+  <h2 id="and-logic">Multiple conditions on one scenario (AND logic)</h2>
+
+  <p>You can add as many conditions as you like to a single scenario. FoxMock requires
+  <strong>all</strong> of them to pass — it is pure AND logic. If any condition fails, the
+  scenario is skipped and FoxMock moves on to the next one by priority.</p>
+
+  <p>This lets you build precise conditions that would be too broad with a single check.</p>
+
+  <h3>Example: out-of-stock only for large quantities of a specific SKU</h3>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Condition #</span><span>Type</span><span>Key / Path</span><span>Operator</span><span>Value</span>
+    </div>
+    <div class="scenario-table-row">
+      <span>1</span>
+      <span>Body JSONPath</span>
+      <span><code>$.productId</code></span>
+      <span>Equals</span>
+      <span><code>SKU-LIMITED</code></span>
+    </div>
+    <div class="scenario-table-row">
+      <span>2</span>
+      <span>Body JSONPath</span>
+      <span><code>$.quantity</code></span>
+      <span>Matches (regex)</span>
+      <span><code>[5-9]|[1-9][0-9]+</code></span>
+    </div>
+  </div>
+
+<pre># Both conditions pass (SKU-LIMITED + quantity ≥ 5) → out_of_stock
+curl -s -X POST "http://localhost:8089/api/orders" \
+  -H "Content-Type: application/json" \
+  -d '{"productId": "SKU-LIMITED", "quantity": 10}'
+# → 409 {"error": "Out of stock"}
+
+# Only condition 1 passes (quantity = 2 < 5) → no match, falls through
+curl -s -X POST "http://localhost:8089/api/orders" \
+  -H "Content-Type: application/json" \
+  -d '{"productId": "SKU-LIMITED", "quantity": 2}'
+# → 201 {"orderId": "ORD-9903", ...} (active fallback)</pre>
+
+  <h3>Example: combine body and header conditions</h3>
+
+  <p>Conditions can mix types freely. Trigger a rate-limit scenario only when a specific
+  client header is present <em>and</em> the order quantity is high:</p>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Condition #</span><span>Type</span><span>Key / Path</span><span>Operator</span><span>Value</span>
+    </div>
+    <div class="scenario-table-row">
+      <span>1</span>
+      <span>Header</span>
+      <span><code>X-Client-Id</code></span>
+      <span>Equals</span>
+      <span><code>test-client-overload</code></span>
+    </div>
+    <div class="scenario-table-row">
+      <span>2</span>
+      <span>Body JSONPath</span>
+      <span><code>$.quantity</code></span>
+      <span>Matches (regex)</span>
+      <span><code>[1-9][0-9]{2,}</code></span>
+    </div>
+  </div>
+
+  <p>Both must be true for the rate-limit scenario to fire. A normal client sending a large
+  quantity, or the test client sending a small quantity, both pass through to other scenarios.</p>
+
+  <hr/>
+
+  <!-- PRIORITY -->
+  <h2 id="priority">Priority between scenarios</h2>
+
+  <p>When multiple conditional scenarios <em>could</em> both match the same request, the
+  <strong>Priority</strong> field controls which one is evaluated first. Lower number =
+  evaluated first = wins if it matches.</p>
+
+  <p>Set priority in the Configure dialog: select a scenario and adjust the
+  <strong>Priority</strong> spinner.</p>
+
+  <p>A recommended priority ordering for a POST endpoint with auth, validation, and business
+  conditions:</p>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Priority</span><span>Scenario</span><span>Rationale</span>
+    </div>
+    <div class="scenario-table-row">
+      <span>0</span>
+      <span><code>unauthorized</code></span>
+      <span>Auth check before anything else — a bad token should never hit business logic</span>
+    </div>
+    <div class="scenario-table-row">
+      <span>1</span>
+      <span><code>missing_product_id</code></span>
+      <span>Input validation runs before stock checks</span>
+    </div>
+    <div class="scenario-table-row">
+      <span>2</span>
+      <span><code>out_of_stock</code></span>
+      <span>Stock check only relevant for valid, authenticated requests</span>
+    </div>
+    <div class="scenario-table-row">
+      <span>—</span>
+      <span><code>success</code> (active ●)</span>
+      <span>Happy path serves everything that passes Tier 1</span>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <strong>Scenarios with equal priority</strong> are evaluated in the order they appear in
+    the list. If two scenarios can both match the same request, give the more specific one the
+    lower priority number to ensure it fires first.
+  </div>
+
+  <hr/>
+
+  <!-- PATH REGEX -->
+  <h2 id="path-regex">Regex in route paths</h2>
+
+  <p>Conditions match on the <em>contents</em> of a request — body, params, headers. But you
+  can also use regex in the route <em>path</em> itself to match a whole family of URLs with
+  one route.</p>
+
+  <p>FoxMock automatically detects whether a path is a regex by looking for regex characters:
+  <code>[</code>, <code>(</code>, <code>\</code>, <code>^</code>, <code>$</code>,
+  <code>|</code>, or <code>+</code>. If any are present, the path is compiled as a Java regex
+  and matched using <code>matches()</code>. Otherwise it is treated as a template where
+  <code>{param}</code> matches any path segment and <code>*</code> matches anything.</p>
+
+  <h3>Examples</h3>
+
+  <div class="condition-ref-table">
+    <div class="crt-row header">
+      <span>Path in FoxMock</span><span>Matches</span><span>Does not match</span>
+    </div>
+    <div class="crt-row">
+      <span><code>/api/orders/{id}</code></span>
+      <span><code>/api/orders/42</code>, <code>/api/orders/ORD-001</code></span>
+      <span><code>/api/orders/42/items</code></span>
+    </div>
+    <div class="crt-row">
+      <span><code>/api/orders/[0-9]+</code></span>
+      <span><code>/api/orders/42</code>, <code>/api/orders/1000</code></span>
+      <span><code>/api/orders/abc</code>, <code>/api/orders/ORD-001</code></span>
+    </div>
+    <div class="crt-row">
+      <span><code>/api/(orders|products)/[0-9]+</code></span>
+      <span><code>/api/orders/5</code>, <code>/api/products/99</code></span>
+      <span><code>/api/users/5</code></span>
+    </div>
+    <div class="crt-row">
+      <span><code>/api/v[12]/.*</code></span>
+      <span><code>/api/v1/orders</code>, <code>/api/v2/users/me</code></span>
+      <span><code>/api/v3/orders</code></span>
+    </div>
+  </div>
+
+  <p>Routes with regex paths are shown with a <code>~ </code> prefix in the route table to
+  make them easy to identify at a glance.</p>
+
+  <div class="tip-box">
+    <strong>Path regex vs body conditions:</strong> Path regex narrows down <em>which route</em>
+    handles a request. Body conditions narrow down <em>which scenario</em> within that route is
+    served. They work at different levels and complement each other perfectly — for example,
+    a regex path <code>/api/orders/[0-9]+</code> combined with a body condition
+    <code>$.action Equals cancel</code> gives you precise routing with minimal routes.
+  </div>
+
+  <hr/>
+
+  <!-- GRPC -->
+  <h2 id="grpc">Conditions in gRPC</h2>
+
+  <p>FoxMock's gRPC mock also supports conditional scenarios. Because gRPC calls don't have URL
+  query strings or HTTP headers in the traditional sense, only the body-based condition types
+  are available for gRPC routes:</p>
+
+  <div class="condition-ref-table">
+    <div class="crt-row header">
+      <span>Type</span><span>Available for gRPC</span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Body JSONPath</strong></span>
+      <span>Yes — gRPC request messages are serialised as JSON for matching</span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Body Regex</strong></span>
+      <span>Yes — matched against the JSON representation of the request</span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Body Exact</strong></span>
+      <span>Yes — matches the entire JSON serialisation of the request message</span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Query Param</strong></span>
+      <span>No — gRPC does not use URL query parameters</span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Header</strong></span>
+      <span>No — not supported for gRPC routes</span>
+    </div>
+  </div>
+
+  <p>The setup workflow is identical to REST: open the Configure dialog for a method, select a
+  scenario, go to the <strong>Conditions</strong> tab, and add conditions exactly as you would
+  for a REST route. The same Tier 1 / 2 / 3 resolution logic applies.</p>
+
+  <p>For a full gRPC walkthrough including conditional scenarios, see the
+  <a href="tutorial-grpc.html">gRPC Tutorial</a>.</p>
+
+  <hr/>
+
+  <!-- TROUBLESHOOTING -->
+  <h2 id="troubleshooting">Troubleshooting</h2>
+
+  <p><strong>Condition set but active fallback is always served</strong><br/>
+  Check that the scenario is <strong>Enabled</strong> (checkbox in the Configure dialog).
+  Disabled scenarios are invisible to Tier 1 — their conditions are never evaluated. Also
+  confirm the scenario shows a <strong>⚡</strong> badge; if it shows only <strong>●</strong>,
+  the conditions were not saved.</p>
+
+  <p><strong>JSONPath condition never matches</strong><br/>
+  JSONPath is case-sensitive: <code>$.ProductId</code> does not match a field named
+  <code>productId</code>. Open the Transaction Log and check the <code>B:</code> line — it
+  shows the exact body FoxMock received. Verify the field name, nesting level, and that the
+  body is valid JSON. If the body is form-encoded or plain text, JSONPath silently fails —
+  switch to Body Regex.</p>
+
+  <p><strong>Regex condition is not matching when it should</strong><br/>
+  FoxMock uses <code>Pattern.matches()</code> which anchors the pattern to the full string.
+  A pattern like <code>SKU-OUT</code> without surrounding <code>.*</code> will only match a
+  body that is <em>exactly</em> <code>SKU-OUT</code> and nothing else. Add <code>.*</code>
+  around the part you care about: <code>.*SKU-OUT.*</code>. For multiline bodies, use
+  <code>[\s\S]*SKU-OUT[\s\S]*</code>.</p>
+
+  <p><strong>Query Param condition not matching</strong><br/>
+  The Key field must be the exact parameter name as it appears in the URL — case-sensitive.
+  <code>Status</code> does not match <code>?status=pending</code>. Check the Transaction Log
+  for the exact query string FoxMock received.</p>
+
+  <p><strong>Header condition not matching</strong><br/>
+  Header names are matched case-insensitively in HTTP, but verify the value. If your token
+  is <code>Bearer valid_token</code> and the condition is <code>Contains expired</code>, it
+  correctly won't match. Check the Transaction Log's <code>H:</code> line for the actual
+  header value.</p>
+
+  <p><strong>Wrong scenario wins when two conditions could both match</strong><br/>
+  Check the Priority spinners. The scenario with the <em>lowest</em> number is evaluated first.
+  If two scenarios have the same priority, the one higher in the list wins. Open the Configure
+  dialog and re-order or adjust priorities.</p>
+
+  <p><strong>Regex in the route path not working</strong><br/>
+  Make sure the path contains at least one regex character (<code>[</code>, <code>(</code>,
+  <code>\</code>, <code>^</code>, <code>$</code>, <code>|</code>, <code>+</code>). A plain path
+  like <code>/api/orders/42</code> is always treated as a literal template, not a regex.
+  The route table shows <code>~ </code> before the path when auto-detection is active.</p>
+
+  <hr/>
+
+  <p>That is everything you need to know about conditions in FoxMock. Start with a single
+  Body JSONPath condition on your most common scenario, see the <strong>⚡</strong> badge appear,
+  and test it with curl. From there, layering in multiple conditions and adjusting priorities
+  is straightforward.</p>
+
+  <div style="margin-top:40px;padding:28px;background:var(--dark-3);border:1px solid var(--border-2);border-radius:var(--radius-lg);text-align:center;">
+    <p style="margin-bottom:8px;font-weight:600;font-size:16px;">More tutorials</p>
+    <p style="margin-bottom:16px;color:var(--text-muted);font-size:15px;">See conditions in action inside a full POST or GET mocking walkthrough.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+      <a href="tutorial-post.html" class="btn-secondary">POST Body Matching Tutorial →</a>
+      <a href="tutorial-rest.html" class="btn-secondary">GET / Query Params Tutorial →</a>
+      <a href="tutorial-grpc.html" class="btn-secondary">gRPC Tutorial →</a>
+      <a href="docs.html" class="btn-primary">Full Documentation →</a>
+    </div>
+  </div>
+
+</article>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">
+        <img src="foxmock-logo.svg" alt="FoxMock" class="logo-icon" />
+        <span class="logo-wordmark"><span class="logo-fox">Fox</span><span class="logo-mock">Mock</span></span>
+      </a>
+      <p>A free IntelliJ plugin for mocking REST, gRPC, SFTP and SMTP inside your IDE.</p>
+      <p style="margin-top:10px;">A product by <a href="https://cellops.com" target="_blank">Cellops</a></p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how-it-works">How It Works</a>
+      <a href="https://plugins.jetbrains.com/plugin/31488" target="_blank">JetBrains Marketplace</a>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <a href="docs.html">Documentation</a>
+      <a href="tutorials.html">Tutorials</a>
+      <a href="changelog.html">Changelog</a>
+      <a href="tutorial-rest.html">GET / Query Params Tutorial</a>
+      <a href="tutorial-post.html">POST Body Matching Tutorial</a>
+      <a href="tutorial-conditions.html" class="active">Condition Types Tutorial</a>
+      <a href="tutorial-grpc.html">gRPC Tutorial</a>
+      <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="mailto:hello@fox-mock.com">Contact</a>
+      <a href="https://cellops.com" target="_blank">Cellops</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Cellops. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="mailto:hello@fox-mock.com">Contact</a>
+      <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    const btn = document.getElementById('nav-mobile-btn');
+    const menu = document.getElementById('nav-mobile-menu');
+    if (!btn || !menu) return;
+    btn.addEventListener('click', () => {
+      const open = menu.classList.toggle('open');
+      btn.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open);
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    document.addEventListener('click', e => {
+      if (!btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove('open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-label', 'Open menu');
+      }
+    });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      menu.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Open menu');
+    }));
+  })();
+
+  MarketplaceWidget.setupMarketplaceWidget('install', 31488, '#tutorial-install-widget');
+</script>
+
+</body>
+</html>

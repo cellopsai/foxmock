@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Mock POST APIs with Body Matching &amp; Scenarios in IntelliJ — FoxMock</title>
+  <meta name="description" content="Step-by-step guide to mocking POST endpoints in IntelliJ with FoxMock. Covers request body matching with JSONPath, multiple scenarios, conditional auto-switching, and header-based routing." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://fox-mock.com/tutorial-post.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="FoxMock" />
+  <meta property="og:title" content="How to Mock POST APIs with Body Matching &amp; Scenarios in IntelliJ — FoxMock" />
+  <meta property="og:description" content="Step-by-step guide to mocking POST endpoints in IntelliJ with FoxMock. Covers request body matching with JSONPath, multiple scenarios, conditional auto-switching, and header-based routing." />
+  <meta property="og:url" content="https://fox-mock.com/tutorial-post.html" />
+  <meta property="og:image" content="https://fox-mock.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="How to Mock POST APIs in IntelliJ — FoxMock Tutorial" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How to Mock POST APIs with Body Matching &amp; Scenarios in IntelliJ" />
+  <meta name="twitter:description" content="Step-by-step: use FoxMock to mock POST endpoints with request body matching, multiple scenarios, and conditional auto-switching." />
+  <meta name="twitter:image" content="https://fox-mock.com/og-image.png" />
+
+  <!-- Extra SEO -->
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Cellops" />
+  <meta name="theme-color" content="#0B0B0F" />
+
+  <!-- JSON-LD: TechArticle + BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "How to Mock POST APIs with Body Matching and Scenarios in IntelliJ",
+    "description": "Step-by-step guide to mocking POST endpoints in IntelliJ with FoxMock. Covers request body matching with JSONPath, multiple scenarios, conditional auto-switching, and header-based routing.",
+    "url": "https://fox-mock.com/tutorial-post.html",
+    "author": { "@type": "Organization", "name": "Cellops", "url": "https://cellops.com" },
+    "publisher": { "@type": "Organization", "name": "Cellops", "url": "https://cellops.com" },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://fox-mock.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Tutorials", "item": "https://fox-mock.com/tutorials.html" },
+        { "@type": "ListItem", "position": 3, "name": "POST Tutorial", "item": "https://fox-mock.com/tutorial-post.html" }
+      ]
+    }
+  }
+  </script>
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://plugins.jetbrains.com/assets/scripts/mp-widget.js"></script>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <img src="foxmock-logo.svg" alt="FoxMock" class="logo-icon" />
+      <span class="logo-wordmark"><span class="logo-fox">Fox</span><span class="logo-mock">Mock</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how-it-works">How It Works</a>
+      <a href="docs.html">Docs</a>
+      <a href="tutorials.html">Tutorials</a>
+      <div class="nav-sep"></div>
+      <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+      <a href="https://plugins.jetbrains.com/plugin/31488" target="_blank" class="btn-nav">Install Free</a>
+    </div>
+    <button class="nav-mobile-btn" id="nav-mobile-btn" aria-label="Open menu" aria-expanded="false">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </div>
+  <div class="nav-mobile-menu" id="nav-mobile-menu">
+    <a href="index.html#features">Features</a>
+    <a href="index.html#how-it-works">How It Works</a>
+    <a href="docs.html">Docs</a>
+    <a href="tutorials.html">Tutorials</a>
+    <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+    <a href="https://plugins.jetbrains.com/plugin/31488" target="_blank" class="btn-mobile-install">Install Free</a>
+  </div>
+</nav>
+
+<!-- ARTICLE -->
+<article class="article-wrap">
+
+  <div class="article-meta">
+    <span class="article-tag">Tutorial</span>
+    <span class="article-tag" style="color:#FF6B35;background:rgba(255,107,53,0.08);border-color:rgba(255,107,53,0.3);">REST</span>
+    <span class="article-tag" style="color:#7EE8A2;background:rgba(126,232,162,0.08);border-color:rgba(126,232,162,0.3);">POST</span>
+    <span class="article-date">May 2026 · 15 min read</span>
+  </div>
+
+  <h1>How to Mock POST APIs with Body Matching &amp; Scenarios in IntelliJ</h1>
+
+  <p class="article-intro">
+    POST endpoints are harder to mock than GET endpoints because the response often depends on
+    <em>what the caller sends</em>, not just the URL. A <code>POST /api/orders</code> should return
+    a 201 when the payload is valid, a 422 when a required field is missing, a 409 when the item
+    is out of stock, and a 503 when the inventory service is down.<br/><br/>
+    <strong>FoxMock</strong> handles all of this with one route and multiple named scenarios —
+    each triggered automatically by matching against the incoming request body using JSONPath,
+    regex, or exact text. No code change. No server restart. No extra tools outside your IDE.
+  </p>
+
+  <hr/>
+
+  <!-- TOC -->
+  <div class="article-toc">
+    <strong>In this tutorial</strong>
+    <ol>
+      <li><a href="#install">Installation</a></li>
+      <li><a href="#concept">Request body vs response body</a></li>
+      <li><a href="#first-route">Add a POST route</a></li>
+      <li><a href="#multiple-scenarios">Create multiple scenarios</a></li>
+      <li><a href="#switch-scenarios">Switch scenarios manually</a></li>
+      <li><a href="#body-conditions">Conditional matching on the request body</a></li>
+      <li><a href="#jsonpath">JSONPath conditions in depth</a></li>
+      <li><a href="#header-conditions">Matching on request headers</a></li>
+      <li><a href="#priority">Priority and multiple conditions</a></li>
+      <li><a href="#three-tier">Three-tier resolution explained</a></li>
+      <li><a href="#disable">Disabling a scenario</a></li>
+      <li><a href="#transaction-log">Transaction log for POST requests</a></li>
+      <li><a href="#save-load">Save &amp; load collections</a></li>
+      <li><a href="#troubleshooting">Troubleshooting</a></li>
+    </ol>
+  </div>
+
+  <hr/>
+
+  <!-- INSTALL -->
+  <h2 id="install">Installation</h2>
+
+  <ol>
+    <li>Open <strong>IntelliJ IDEA</strong></li>
+    <li>Go to <strong>File → Settings → Plugins</strong> (macOS: <strong>IntelliJ IDEA → Settings → Plugins</strong>)</li>
+    <li>Open the <strong>Marketplace</strong> tab and search for <strong>FoxMock</strong></li>
+    <li>Click <strong>Install</strong>, then restart the IDE</li>
+  </ol>
+
+  <p>Or install directly:</p>
+  <div style="margin:20px 0;">
+    <div id="tutorial-install-widget"></div>
+  </div>
+
+  <p>After restarting, open <strong>View → Tool Windows → FoxMock</strong> and select the
+  <strong>HTTP Mock</strong> tab.</p>
+
+  <hr/>
+
+  <!-- CONCEPT -->
+  <h2 id="concept">Request body vs response body</h2>
+
+  <p>Before building anything it is worth being clear on the two bodies involved in every POST
+  interaction, because they are easy to mix up:</p>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Body</span><span>Direction</span><span>In FoxMock</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><strong>Request body</strong> (<code>-d</code> in curl)</span>
+      <span>Your app → FoxMock</span>
+      <span>Read by <strong>conditions</strong> to decide which scenario wins</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><strong>Response body</strong></span>
+      <span>FoxMock → your app</span>
+      <span>Set in the <strong>Response</strong> tab of each scenario</span>
+    </div>
+  </div>
+
+  <p>The <strong>Response</strong> tab in FoxMock's Configure dialog is always the response body —
+  what FoxMock sends back. The request body your app sends is never configured; it is only
+  <em>inspected</em> by conditions to pick the right scenario.</p>
+
+  <p>A curl call makes this concrete:</p>
+
+<pre># -d is the REQUEST body — what your app sends to FoxMock
+curl -s -X POST "http://localhost:8090/api/orders" \
+  -H "Content-Type: application/json" \
+  -d '{"productId": "SKU-001", "quantity": 2}'
+
+# FoxMock reads {"productId":"SKU-001","quantity":2},
+# evaluates conditions, and returns the matching RESPONSE body
+# → {"orderId": "ORD-8821", "status": "confirmed", "total": 59.98}</pre>
+
+  <hr/>
+
+  <!-- FIRST ROUTE -->
+  <h2 id="first-route">Add a POST route</h2>
+
+  <p>We will mock <code>POST /api/orders</code> — a typical order-creation endpoint. Click
+  <strong>Start Server</strong> first, then click <strong>Add Route</strong>.</p>
+
+  <p>Fill in the route dialog:</p>
+  <ul>
+    <li><strong>Method</strong>: <code>POST</code></li>
+    <li><strong>Path</strong>: <code>/api/orders</code></li>
+  </ul>
+
+  <p>In the <strong>Response</strong> tab of the default scenario, set <strong>Status</strong> to
+  <code>201</code> and paste this response body:</p>
+
+<pre>{
+  "orderId": "ORD-8821",
+  "status": "confirmed",
+  "productId": "SKU-001",
+  "quantity": 2,
+  "total": 59.98,
+  "estimatedDelivery": "2026-05-22"
+}</pre>
+
+  <p>Name this scenario <code>success</code>. Click <strong>Save</strong>.</p>
+
+  <p>Test it — the <code>-d</code> value is the request body your app would send:</p>
+
+<pre>curl -s -X POST "http://localhost:8090/api/orders" \
+  -H "Content-Type: application/json" \
+  -d '{"productId": "SKU-001", "quantity": 2}'</pre>
+
+  <p>FoxMock returns the 201 response body you configured. At this point FoxMock ignores the
+  request body entirely — it has no conditions yet, so every POST to <code>/api/orders</code>
+  gets the <code>success</code> response.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-post-01-route.png</div>
+  <p class="img-caption">HTTP Mock panel — POST /api/orders in the route table, server running</p>
+
+  <hr/>
+
+  <!-- MULTIPLE SCENARIOS -->
+  <h2 id="multiple-scenarios">Create multiple scenarios</h2>
+
+  <p>Real POST endpoints return different responses depending on what the caller sends. Here is a
+  full set for an order endpoint:</p>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Scenario name</span><span>Status</span><span>When to use</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>success</code></span><span>201</span><span>Valid payload — order confirmed</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>validation_error</code></span><span>422</span><span>Required field missing or invalid</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>out_of_stock</code></span><span>409</span><span>Requested product unavailable</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>unauthorized</code></span><span>401</span><span>Missing or invalid auth token</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>server_error</code></span><span>500</span><span>Simulate a backend failure</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>slow_response</code></span><span>201</span><span>3 000 ms delay — timeout testing</span>
+    </div>
+  </div>
+
+  <h3>Adding each scenario</h3>
+
+  <p>Double-click the <code>POST /api/orders</code> row to open the Configure dialog. Click
+  <strong>Add Scenario</strong> for each entry below.</p>
+
+  <p><strong>validation_error</strong> — Status <code>422</code>, body:</p>
+<pre>{
+  "error": "Validation failed",
+  "fields": {
+    "productId": "productId is required",
+    "quantity":  "quantity must be a positive integer"
+  }
+}</pre>
+
+  <p><strong>out_of_stock</strong> — Status <code>409</code>, body:</p>
+<pre>{
+  "error": "Conflict",
+  "message": "Product SKU-001 is currently out of stock. Try again later."
+}</pre>
+
+  <p><strong>unauthorized</strong> — Status <code>401</code>, add a response header
+  <code>WWW-Authenticate: Bearer realm="api"</code>, body:</p>
+<pre>{
+  "error": "Unauthorized",
+  "message": "A valid Bearer token is required."
+}</pre>
+
+  <p><strong>server_error</strong> — Status <code>500</code>, body:</p>
+<pre>{
+  "error": "Internal Server Error",
+  "message": "The order service is temporarily unavailable."
+}</pre>
+
+  <p><strong>slow_response</strong> — Status <code>201</code>, same body as <code>success</code>,
+  <strong>Delay</strong> set to <code>3000</code> ms. Use this to test how your app handles slow
+  upstream responses or to verify timeout logic.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-post-02-scenarios.png</div>
+  <p class="img-caption">Configure dialog — six scenarios listed for POST /api/orders</p>
+
+  <hr/>
+
+  <!-- SWITCH SCENARIOS -->
+  <h2 id="switch-scenarios">Switch scenarios manually</h2>
+
+  <p>The scenario marked <strong>●</strong> is the one currently being served. To switch:</p>
+
+  <p><strong>From the Configure dialog:</strong> select a scenario and click
+  <strong>Set Active</strong>. The ● badge moves immediately — the very next POST gets that
+  response. No restart required.</p>
+
+  <p><strong>Without opening the dialog:</strong> right-click the route row →
+  <strong>Switch Scenario</strong> → pick from the submenu.</p>
+
+  <p>Try triggering the validation error manually:</p>
+<pre># Set validation_error active, then send any POST body:
+curl -s -X POST "http://localhost:8090/api/orders" \
+  -H "Content-Type: application/json" \
+  -d '{"productId": "SKU-001", "quantity": 2}'
+# → 422 {"error":"Validation failed","fields":{...}}</pre>
+
+  <p>Manual switching is ideal during exploratory testing or demo sessions where you want full
+  control over what the mock returns regardless of the payload.</p>
+
+  <hr/>
+
+  <!-- BODY CONDITIONS -->
+  <h2 id="body-conditions">Conditional matching on the request body</h2>
+
+  <p>For automated tests you need the mock to return the right response automatically — based on
+  what the caller sends — without any human switching. That is what <strong>body
+  conditions</strong> are for.</p>
+
+  <p>When a POST arrives, FoxMock reads the raw request body and evaluates all conditional
+  scenarios in priority order. The first scenario whose conditions all pass wins.</p>
+
+  <h3>The three body condition types</h3>
+
+  <div class="condition-ref-table">
+    <div class="crt-row header">
+      <span>Type</span><span>How it works</span><span>Best for</span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Body JSONPath</strong></span>
+      <span>Evaluates a JSONPath expression against the parsed JSON body and applies an operator to the extracted value</span>
+      <span>Matching a specific field like <code>$.status</code> or <code>$.user.role</code></span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Body Regex</strong></span>
+      <span>Applies a regular expression to the entire raw body string</span>
+      <span>Flexible matching when the body format varies or isn't strict JSON</span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Body Exact</strong></span>
+      <span>The entire raw body must equal the condition value exactly (whitespace-sensitive)</span>
+      <span>Fixed payloads in unit tests where the body is always identical</span>
+    </div>
+  </div>
+
+  <h3>Example: auto-route based on productId</h3>
+
+  <p>We want:</p>
+  <ul>
+    <li><code>productId = "SKU-OUT"</code> → <code>out_of_stock</code> (409)</li>
+    <li><code>productId</code> missing → <code>validation_error</code> (422)</li>
+    <li>any other valid payload → <code>success</code> (201, active fallback)</li>
+  </ul>
+
+  <h3>Step 1 — Condition on <code>out_of_stock</code></h3>
+  <ol>
+    <li>Open the Configure dialog for <code>POST /api/orders</code></li>
+    <li>Select the <code>out_of_stock</code> scenario</li>
+    <li>Click the <strong>Conditions</strong> tab → <strong>Add Condition</strong></li>
+    <li>Fill in:
+      <ul>
+        <li><strong>Type:</strong> <code>Body JSONPath</code></li>
+        <li><strong>Key / Path:</strong> <code>$.productId</code></li>
+        <li><strong>Operator:</strong> <code>Equals</code></li>
+        <li><strong>Value:</strong> <code>SKU-OUT</code></li>
+      </ul>
+    </li>
+    <li>Click <strong>Save</strong></li>
+  </ol>
+
+  <p>The scenario now shows a <strong>⚡</strong> badge — it has at least one condition.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-post-03-condition-jsonpath.png</div>
+  <p class="img-caption">Conditions tab — Body JSONPath / $.productId / Equals / SKU-OUT</p>
+
+  <h3>Step 2 — Condition on <code>validation_error</code></h3>
+  <ol>
+    <li>Select the <code>validation_error</code> scenario</li>
+    <li>Click <strong>Conditions</strong> tab → <strong>Add Condition</strong></li>
+    <li>Fill in:
+      <ul>
+        <li><strong>Type:</strong> <code>Body JSONPath</code></li>
+        <li><strong>Key / Path:</strong> <code>$.productId</code></li>
+        <li><strong>Operator:</strong> <code>Exists</code></li>
+        <li><strong>Value:</strong> leave blank, then <em>negate it</em> — use operator
+            <code>Matches (regex)</code> with value <code>^$</code> on
+            <code>Body Regex</code> if your version doesn't have a "Not Exists" operator.
+            Alternatively use a second condition described in the <a href="#jsonpath">JSONPath section</a>.</li>
+      </ul>
+    </li>
+  </ol>
+
+  <p>A simpler approach for missing fields is <strong>Body Regex</strong>:</p>
+  <ul>
+    <li><strong>Type:</strong> <code>Body Regex</code></li>
+    <li><strong>Operator:</strong> <code>Matches (regex)</code></li>
+    <li><strong>Value:</strong> <code>^(?!.*"productId").*$</code></li>
+  </ul>
+
+  <p>This regex matches any body that does not contain the string <code>"productId"</code> at all.</p>
+
+  <h3>Step 3 — Test it</h3>
+<pre># Triggers out_of_stock ($.productId = "SKU-OUT")
+curl -s -X POST "http://localhost:8090/api/orders" \
+  -H "Content-Type: application/json" \
+  -d '{"productId": "SKU-OUT", "quantity": 1}'
+# → 409 {"error":"Conflict","message":"Product SKU-001 is currently out of stock..."}
+
+# Triggers validation_error (productId field missing)
+curl -s -X POST "http://localhost:8090/api/orders" \
+  -H "Content-Type: application/json" \
+  -d '{"quantity": 3}'
+# → 422 {"error":"Validation failed","fields":{...}}
+
+# Falls through to active fallback → success
+curl -s -X POST "http://localhost:8090/api/orders" \
+  -H "Content-Type: application/json" \
+  -d '{"productId": "SKU-001", "quantity": 2}'
+# → 201 {"orderId":"ORD-8821","status":"confirmed",...}</pre>
+
+  <p>Three different responses from one route, zero manual switching, zero code changes.</p>
+
+  <hr/>
+
+  <!-- JSONPATH -->
+  <h2 id="jsonpath">JSONPath conditions in depth</h2>
+
+  <p>JSONPath is the most powerful condition type for POST endpoints because it targets individual
+  fields regardless of how the rest of the body is structured.</p>
+
+  <h3>Common JSONPath expressions</h3>
+
+  <div class="condition-ref-table">
+    <div class="crt-row header">
+      <span>Expression</span><span>Matches</span><span>Example payload</span>
+    </div>
+    <div class="crt-row">
+      <span><code>$.action</code></span>
+      <span>Top-level field</span>
+      <span><code>{"action": "cancel"}</code></span>
+    </div>
+    <div class="crt-row">
+      <span><code>$.user.role</code></span>
+      <span>Nested field</span>
+      <span><code>{"user": {"role": "admin"}}</code></span>
+    </div>
+    <div class="crt-row">
+      <span><code>$.items[0].sku</code></span>
+      <span>First element in an array</span>
+      <span><code>{"items": [{"sku": "A1"}]}</code></span>
+    </div>
+    <div class="crt-row">
+      <span><code>$.items.length()</code></span>
+      <span>Array length (Jayway syntax)</span>
+      <span><code>{"items": [{}, {}, {}]}</code> → <code>3</code></span>
+    </div>
+    <div class="crt-row">
+      <span><code>$.metadata.priority</code></span>
+      <span>Deeply nested value</span>
+      <span><code>{"metadata": {"priority": "high"}}</code></span>
+    </div>
+  </div>
+
+  <h3>Operators for JSONPath</h3>
+  <ul>
+    <li><strong>Equals</strong> — the extracted value must exactly match the condition value (string comparison, case-sensitive)</li>
+    <li><strong>Contains</strong> — the extracted value contains the condition value as a substring</li>
+    <li><strong>Matches (regex)</strong> — the extracted value matches a regular expression</li>
+    <li><strong>Exists</strong> — the JSONPath expression resolves to any value (field must be present); the condition value is ignored</li>
+  </ul>
+
+  <h3>Practical example: order action routing</h3>
+
+  <p>Suppose your single endpoint handles multiple order actions distinguished by an
+  <code>action</code> field:</p>
+
+<pre>POST /api/orders
+{"action": "create",  "productId": "SKU-001", "quantity": 2}
+{"action": "cancel",  "orderId": "ORD-8821"}
+{"action": "reorder", "orderId": "ORD-8821"}</pre>
+
+  <p>Create three scenarios and assign a JSONPath condition to each:</p>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Scenario</span><span>JSONPath</span><span>Operator</span><span>Value</span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>order_created</code></span>
+      <span><code>$.action</code></span>
+      <span>Equals</span>
+      <span><code>create</code></span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>order_cancelled</code></span>
+      <span><code>$.action</code></span>
+      <span>Equals</span>
+      <span><code>cancel</code></span>
+    </div>
+    <div class="scenario-table-row">
+      <span><code>order_reordered</code></span>
+      <span><code>$.action</code></span>
+      <span>Equals</span>
+      <span><code>reorder</code></span>
+    </div>
+  </div>
+
+  <p>Now each action gets its own realistic response automatically. Test:</p>
+
+<pre>curl -s -X POST "http://localhost:8090/api/orders" \
+  -H "Content-Type: application/json" \
+  -d '{"action": "cancel", "orderId": "ORD-8821"}'
+# → the order_cancelled response body immediately</pre>
+
+  <hr/>
+
+  <!-- HEADER CONDITIONS -->
+  <h2 id="header-conditions">Matching on request headers</h2>
+
+  <p>POST endpoints usually require authentication. You can use a <strong>Header</strong> condition
+  to return different responses based on the <code>Authorization</code> header — no body matching
+  needed.</p>
+
+  <h3>Example: simulate an expired token</h3>
+
+  <ol>
+    <li>Select the <code>unauthorized</code> scenario</li>
+    <li>Click <strong>Conditions</strong> tab → <strong>Add Condition</strong></li>
+    <li>Fill in:
+      <ul>
+        <li><strong>Type:</strong> <code>Header</code></li>
+        <li><strong>Key / Path:</strong> <code>Authorization</code></li>
+        <li><strong>Operator:</strong> <code>Contains</code></li>
+        <li><strong>Value:</strong> <code>expired</code></li>
+      </ul>
+    </li>
+    <li>Click <strong>Save</strong></li>
+  </ol>
+
+  <p>Now any POST that includes <code>Authorization: Bearer expired_token_here</code> returns a
+  401 — regardless of what the body contains:</p>
+
+<pre># Triggers unauthorized scenario
+curl -s -X POST "http://localhost:8090/api/orders" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer expired_abc123" \
+  -d '{"productId": "SKU-001", "quantity": 2}'
+# → 401 {"error":"Unauthorized","message":"A valid Bearer token is required."}
+
+# Valid token → falls through to body conditions → success
+curl -s -X POST "http://localhost:8090/api/orders" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer valid_token_xyz" \
+  -d '{"productId": "SKU-001", "quantity": 2}'
+# → 201 {"orderId":"ORD-8821","status":"confirmed",...}</pre>
+
+  <h3>All condition types available for REST routes</h3>
+
+  <div class="condition-ref-table">
+    <div class="crt-row header">
+      <span>Type</span><span>What it matches on</span><span>Example key</span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Query Param</strong></span>
+      <span>A URL query parameter value</span>
+      <span><code>page</code>, <code>version</code></span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Header</strong></span>
+      <span>A request header value</span>
+      <span><code>Authorization</code>, <code>X-Tenant-Id</code></span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Body JSONPath</strong></span>
+      <span>A field inside the JSON request body</span>
+      <span><code>$.action</code>, <code>$.user.role</code></span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Body Regex</strong></span>
+      <span>The entire raw body against a regular expression</span>
+      <span><code>.*"action":"cancel".*</code></span>
+    </div>
+    <div class="crt-row">
+      <span><strong>Body Exact</strong></span>
+      <span>The entire body must equal the value exactly</span>
+      <span><code>{"action":"ping"}</code></span>
+    </div>
+  </div>
+
+  <hr/>
+
+  <!-- PRIORITY -->
+  <h2 id="priority">Priority and multiple conditions</h2>
+
+  <h3>Multiple conditions on one scenario (AND logic)</h3>
+
+  <p>When you add more than one condition to a scenario, FoxMock requires <em>all</em> of them to
+  pass. This lets you build precise targeting:</p>
+
+  <p>Example — trigger <code>out_of_stock</code> only when the product is SKU-OUT
+  <em>and</em> the quantity is more than zero:</p>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Type</span><span>Key / Path</span><span>Operator</span><span>Value</span>
+    </div>
+    <div class="scenario-table-row">
+      <span>Body JSONPath</span>
+      <span><code>$.productId</code></span>
+      <span>Equals</span>
+      <span><code>SKU-OUT</code></span>
+    </div>
+    <div class="scenario-table-row">
+      <span>Body JSONPath</span>
+      <span><code>$.quantity</code></span>
+      <span>Matches (regex)</span>
+      <span><code>[1-9][0-9]*</code></span>
+    </div>
+  </div>
+
+  <p>Both conditions must be true for the scenario to win. If either fails, FoxMock continues to
+  the next conditional scenario by priority.</p>
+
+  <h3>Priority between scenarios</h3>
+
+  <p>When multiple conditional scenarios could match the same request, the <strong>Priority</strong>
+  spinner controls which one wins. Lower number = higher priority. A scenario with priority 0 is
+  evaluated before one with priority 1.</p>
+
+  <p>A good default ordering for the order endpoint:</p>
+
+  <div class="scenario-table">
+    <div class="scenario-table-row header">
+      <span>Priority</span><span>Scenario</span><span>Why first</span>
+    </div>
+    <div class="scenario-table-row">
+      <span>0</span>
+      <span><code>unauthorized</code></span>
+      <span>Auth check should fire before any business logic</span>
+    </div>
+    <div class="scenario-table-row">
+      <span>1</span>
+      <span><code>validation_error</code></span>
+      <span>Invalid input caught before stock check</span>
+    </div>
+    <div class="scenario-table-row">
+      <span>2</span>
+      <span><code>out_of_stock</code></span>
+      <span>Stock check only relevant for valid requests</span>
+    </div>
+    <div class="scenario-table-row">
+      <span>—</span>
+      <span><code>success</code> (active fallback ●)</span>
+      <span>Serves all requests that pass through Tier 1</span>
+    </div>
+  </div>
+
+  <p>To set priority: open the Configure dialog, select a scenario, and adjust the
+  <strong>Priority</strong> spinner in the config row at the top of the editor.</p>
+
+  <hr/>
+
+  <!-- THREE TIER -->
+  <h2 id="three-tier">Three-tier resolution explained</h2>
+
+  <p>Every POST request goes through this logic in order:</p>
+
+  <div class="tier-block">
+    <div class="tier">
+      <div class="tier-num">1</div>
+      <div class="tier-body">
+        <strong>Conditional scenarios</strong> — evaluated in priority order (lower number first).
+        The first scenario whose <em>all</em> conditions match the incoming request body, headers,
+        and/or query params is served immediately.
+      </div>
+    </div>
+    <div class="tier">
+      <div class="tier-num">2</div>
+      <div class="tier-body">
+        <strong>Manually active scenario (●)</strong> — if no conditional scenario matched, the
+        scenario you last set active via <em>Set Active</em> or <em>Switch Scenario</em> is served.
+        This is your default happy path.
+      </div>
+    </div>
+    <div class="tier">
+      <div class="tier-num">3</div>
+      <div class="tier-body">
+        <strong>First enabled scenario</strong> — safety net. If the active scenario is disabled or
+        not set, FoxMock falls back to the first enabled scenario in the list so the server never
+        returns a 404 unexpectedly.
+      </div>
+    </div>
+  </div>
+
+  <p>Scenario badges reflect where each scenario sits:</p>
+  <ul>
+    <li><strong>●</strong> — the active Tier 2 fallback</li>
+    <li><strong>⚡</strong> — has at least one condition (participates in Tier 1)</li>
+    <li><strong>⚡●</strong> — conditional and also the active fallback</li>
+    <li><em>gray / italic</em> — disabled, skipped at all three tiers</li>
+  </ul>
+
+  <h3>Applied to the order endpoint</h3>
+
+<pre>POST /api/orders  {"productId": "SKU-OUT", "quantity": 2}
+
+Tier 1 scan (priority order):
+  0 — unauthorized  → Authorization header present, not "expired" → SKIP
+  1 — validation_error → body has productId → SKIP
+  2 — out_of_stock  → $.productId = "SKU-OUT" → MATCH ✓
+→ Serve out_of_stock (409)</pre>
+
+<pre>POST /api/orders  {"productId": "SKU-001", "quantity": 2}
+
+Tier 1 scan:
+  0 — unauthorized  → SKIP
+  1 — validation_error → SKIP
+  2 — out_of_stock  → $.productId = "SKU-001" ≠ "SKU-OUT" → SKIP
+No conditional match → move to Tier 2
+→ Serve success ● (201)</pre>
+
+  <hr/>
+
+  <!-- DISABLE -->
+  <h2 id="disable">Disabling a scenario</h2>
+
+  <p>To take a scenario out of rotation without deleting it:</p>
+  <ol>
+    <li>Open the Configure dialog</li>
+    <li>Select the scenario</li>
+    <li>Uncheck <strong>Enabled</strong></li>
+    <li>Click <strong>Save</strong></li>
+  </ol>
+
+  <p>The scenario turns gray and italic. FoxMock skips it at all three tiers — its conditions are
+  never evaluated and it is never used as the Tier 2 fallback.</p>
+
+  <p>This is particularly useful for POST routes:</p>
+  <ul>
+    <li>Keep <code>server_error</code> defined but disabled during normal development.
+        Enable it only when testing your error handling or retry logic.</li>
+    <li>Keep <code>slow_response</code> disabled by default.
+        Enable it only when testing loading states or timeout behaviour.</li>
+    <li>Keep <code>unauthorized</code> disabled when working on features that don't
+        involve auth, so it doesn't accidentally intercept valid requests.</li>
+  </ul>
+
+  <hr/>
+
+  <!-- TRANSACTION LOG -->
+  <h2 id="transaction-log">Transaction log for POST requests</h2>
+
+  <p>The <strong>Request Log</strong> pane at the bottom of the HTTP Mock panel records every
+  request FoxMock receives. For POST requests it shows additional context that is critical for
+  debugging body-condition matching:</p>
+
+  <ul>
+    <li>Timestamp, method, path, status code, and duration</li>
+    <li>Which scenario was matched (in brackets)</li>
+    <li>The decoded request body as indented detail lines</li>
+  </ul>
+
+<pre>[14:02:11]  POST  /api/orders  →  201  9ms   [success ●]
+    ↳ B: {"productId":"SKU-001","quantity":2}
+
+[14:02:28]  POST  /api/orders  →  409  6ms   [out_of_stock ⚡]
+    ↳ B: {"productId":"SKU-OUT","quantity":1}
+
+[14:02:45]  POST  /api/orders  →  422  4ms   [validation_error ⚡]
+    ↳ B: {"quantity":5}
+
+[14:03:01]  POST  /api/orders  →  401  3ms   [unauthorized ⚡]
+    ↳ B: {"productId":"SKU-001","quantity":2}
+    ↳ H: Authorization: Bearer expired_abc123</pre>
+
+  <p>The <code>B:</code> prefix marks the request body. The <code>H:</code> prefix marks a notable
+  request header. If the wrong scenario is being served, check the log first — the scenario name
+  in brackets tells you exactly which tier matched and which scenario won.</p>
+
+  <div class="img-placeholder">screenshot-placeholder-post-04-log.png</div>
+  <p class="img-caption">Request Log — four POST requests, each matched to a different scenario</p>
+
+  <hr/>
+
+  <!-- SAVE/LOAD -->
+  <h2 id="save-load">Save &amp; load collections</h2>
+
+  <p>Your entire mock setup — all routes, scenarios, conditions, priorities — can be saved to a
+  <code>.fmcoll.json</code> file and restored at any time.</p>
+
+  <h3>Save</h3>
+  <ol>
+    <li>Click <strong>💾 Save Collection</strong> in the HTTP Mock panel toolbar</li>
+    <li>Choose which routes to include (check <code>POST /api/orders</code>)</li>
+    <li>Pick a filename such as <code>orders-api.fmcoll.json</code></li>
+  </ol>
+
+  <p>The saved file includes every scenario and its conditions:</p>
+
+<pre>{
+  "name": "Orders API",
+  "version": "1.0",
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/api/orders",
+      "activeScenario": "success",
+      "scenarios": [
+        {
+          "name": "success",
+          "enabled": true,
+          "statusCode": 201,
+          "delayMs": 0,
+          "responseBody": "{\"orderId\":\"ORD-8821\",\"status\":\"confirmed\",...}",
+          "matchConditions": [],
+          "priority": 0
+        },
+        {
+          "name": "out_of_stock",
+          "enabled": true,
+          "statusCode": 409,
+          "delayMs": 0,
+          "responseBody": "{\"error\":\"Conflict\",...}",
+          "matchConditions": [
+            {
+              "type": "BODY_JSONPATH",
+              "key": "$.productId",
+              "operator": "EQUALS",
+              "value": "SKU-OUT"
+            }
+          ],
+          "priority": 2
+        },
+        {
+          "name": "server_error",
+          "enabled": false,
+          "statusCode": 500,
+          "delayMs": 0,
+          "responseBody": "{\"error\":\"Internal Server Error\",...}",
+          "matchConditions": [],
+          "priority": 0
+        }
+      ]
+    }
+  ]
+}</pre>
+
+  <h3>Load</h3>
+  <ol>
+    <li>Click <strong>📂 Load Collection</strong></li>
+    <li>Select the <code>.fmcoll.json</code> file</li>
+    <li>For each route that already exists, choose <strong>Keep</strong>, <strong>Replace</strong>,
+        or <strong>Merge</strong> scenarios</li>
+  </ol>
+
+  <p>Commit the <code>.fmcoll.json</code> file to version control. Every developer on the team
+  loads the same POST mock setup in two clicks — with all body conditions and priorities intact.</p>
+
+  <hr/>
+
+  <!-- TROUBLESHOOTING -->
+  <h2 id="troubleshooting">Troubleshooting</h2>
+
+  <p><strong>Wrong scenario served — body condition not matching</strong><br/>
+  Open the Transaction Log. The <code>B:</code> line shows exactly what FoxMock received. Compare
+  it with the JSONPath or regex in your condition. JSONPath is case-sensitive:
+  <code>$.ProductId</code> does not match a field named <code>productId</code>. Use
+  <code>Matches (regex)</code> with <code>(?i)sku-out</code> for case-insensitive matching.</p>
+
+  <p><strong>Conditions are set but all requests still hit the active fallback</strong><br/>
+  Check that the scenario is <strong>Enabled</strong> (the checkbox in the Configure dialog).
+  Disabled scenarios are skipped at Tier 1 — their conditions are never evaluated. Also confirm
+  the scenario has a <strong>⚡</strong> badge in the list; if it shows only <strong>●</strong> or
+  nothing, conditions were not saved.</p>
+
+  <p><strong>404 — FoxMock returns "No mock route configured"</strong><br/>
+  The method must match exactly. A route defined as <code>POST /api/orders</code> will not match a
+  <code>PUT /api/orders</code> request. Also check the path: <code>/api/orders</code> and
+  <code>/api/orders/</code> (trailing slash) are treated as different paths.</p>
+
+  <p><strong>JSONPath expression returns nothing</strong><br/>
+  If the request body is not valid JSON (e.g. form-encoded data, plain text), JSONPath evaluation
+  silently fails and the condition does not match. Check the <code>B:</code> line in the log.
+  If the body is not JSON, switch to <strong>Body Regex</strong> or <strong>Body Exact</strong>
+  instead.</p>
+
+  <p><strong>The <code>server_error</code> scenario fires unexpectedly</strong><br/>
+  It was probably left enabled. Open the Configure dialog, select it, uncheck
+  <strong>Enabled</strong>, and save. Disabled scenarios are shown gray and italic and are never
+  served.</p>
+
+  <p><strong>Connection refused</strong><br/>
+  The HTTP Mock server is not running. Check the status strip — click <strong>Start Server</strong>
+  if it shows Stopped. Confirm the port in FoxMock matches the one in your curl command
+  (<strong>Settings → Tools → FoxMock → HTTP Port</strong>).</p>
+
+  <hr/>
+
+  <p>That covers the full POST mocking workflow: one route, six scenarios, body-driven
+  auto-switching, header-based auth simulation, and the whole setup saved to a shareable file.
+  FoxMock evaluates all conditions on every incoming POST automatically — your tests just send
+  the right payload and get the right response every time.</p>
+
+  <div style="margin-top:40px;padding:28px;background:var(--dark-3);border:1px solid var(--border-2);border-radius:var(--radius-lg);text-align:center;">
+    <p style="margin-bottom:8px;font-weight:600;font-size:16px;">More tutorials</p>
+    <p style="margin-bottom:16px;color:var(--text-muted);font-size:15px;">FoxMock supports REST, gRPC, SFTP and SMTP — all inside IntelliJ.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+      <a href="tutorial-rest.html" class="btn-secondary">GET / Query Param Tutorial →</a>
+      <a href="tutorial-grpc.html" class="btn-secondary">gRPC Tutorial →</a>
+      <a href="docs.html" class="btn-primary">Full Documentation →</a>
+    </div>
+  </div>
+
+</article>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">
+        <img src="foxmock-logo.svg" alt="FoxMock" class="logo-icon" />
+        <span class="logo-wordmark"><span class="logo-fox">Fox</span><span class="logo-mock">Mock</span></span>
+      </a>
+      <p>A free IntelliJ plugin for mocking REST, gRPC, SFTP and SMTP inside your IDE.</p>
+      <p style="margin-top:10px;">A product by <a href="https://cellops.com" target="_blank">Cellops</a></p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how-it-works">How It Works</a>
+      <a href="https://plugins.jetbrains.com/plugin/31488" target="_blank">JetBrains Marketplace</a>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <a href="docs.html">Documentation</a>
+      <a href="tutorials.html">Tutorials</a>
+      <a href="changelog.html">Changelog</a>
+      <a href="tutorial-rest.html">GET / Query Params Tutorial</a>
+      <a href="tutorial-post.html" class="active">POST Body Matching Tutorial</a>
+      <a href="tutorial-conditions.html">Condition Types Tutorial</a>
+      <a href="tutorial-grpc.html">gRPC Tutorial</a>
+      <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="mailto:hello@fox-mock.com">Contact</a>
+      <a href="https://cellops.com" target="_blank">Cellops</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Cellops. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="mailto:hello@fox-mock.com">Contact</a>
+      <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    const btn = document.getElementById('nav-mobile-btn');
+    const menu = document.getElementById('nav-mobile-menu');
+    if (!btn || !menu) return;
+    btn.addEventListener('click', () => {
+      const open = menu.classList.toggle('open');
+      btn.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open);
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    document.addEventListener('click', e => {
+      if (!btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove('open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-label', 'Open menu');
+      }
+    });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      menu.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Open menu');
+    }));
+  })();
+
+  MarketplaceWidget.setupMarketplaceWidget('install', 31488, '#tutorial-install-widget');
+</script>
+
+</body>
+</html>

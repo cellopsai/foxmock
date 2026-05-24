@@ -70,6 +70,57 @@
 
     <div class="tutorials-grid">
 
+      <a href="tutorial-post.html" class="tutorial-card">
+        <div class="tutorial-card-icon">📨</div>
+        <div class="tutorial-card-body">
+          <div class="tutorial-card-tags">
+            <span class="tutorial-tag orange">REST</span>
+            <span class="tutorial-tag orange">POST</span>
+            <span class="tutorial-tag">15 min</span>
+          </div>
+          <h2>Mock POST APIs with Body Matching &amp; Scenarios</h2>
+          <p>Add a POST route, configure six realistic scenarios, and let FoxMock auto-switch responses based on the incoming request body using JSONPath conditions — no code change, no restart.</p>
+          <ul class="tutorial-card-covers">
+            <li>Request body vs response body — what each means in FoxMock</li>
+            <li>Adding a POST route and its first scenario</li>
+            <li>Six scenarios: success, validation error, conflict, unauthorized, server error, slow</li>
+            <li>Body JSONPath conditions: match on specific fields</li>
+            <li>Body Regex conditions: flexible pattern matching</li>
+            <li>Header conditions: simulate auth failures automatically</li>
+            <li>Priority and multi-condition AND logic</li>
+            <li>Three-tier resolution applied to POST</li>
+            <li>Transaction log — inspecting the received request body</li>
+          </ul>
+          <span class="tutorial-card-cta">Read tutorial →</span>
+        </div>
+      </a>
+
+      <a href="tutorial-conditions.html" class="tutorial-card">
+        <div class="tutorial-card-icon">🎯</div>
+        <div class="tutorial-card-body">
+          <div class="tutorial-card-tags">
+            <span class="tutorial-tag orange">REST</span>
+            <span class="tutorial-tag blue">gRPC</span>
+            <span class="tutorial-tag">12 min</span>
+          </div>
+          <h2>Condition Types &amp; Operators — Smart Scenario Routing</h2>
+          <p>A complete guide to every condition type — Body JSONPath, Body Regex, Body Exact, Query Param, and Header — with all four operators and practical POST, GET, and regex examples.</p>
+          <ul class="tutorial-card-covers">
+            <li>Body JSONPath — target a specific field in any JSON payload</li>
+            <li>Body Regex — pattern match the raw body (XML and plain text too)</li>
+            <li>Body Exact — strict byte-for-byte payload matching</li>
+            <li>Query Param conditions — GET routing by URL parameter</li>
+            <li>Header conditions — auth, tenant ID, API versioning</li>
+            <li>Operators: Equals, Contains, Matches (regex), Exists</li>
+            <li>AND logic — multiple conditions on one scenario</li>
+            <li>Priority between scenarios</li>
+            <li>Regex in route paths — auto-detected, no checkbox needed</li>
+            <li>Conditions in gRPC</li>
+          </ul>
+          <span class="tutorial-card-cta">Read tutorial →</span>
+        </div>
+      </a>
+
       <a href="tutorial-rest.html" class="tutorial-card">
         <div class="tutorial-card-icon">🌐</div>
         <div class="tutorial-card-body">
@@ -91,7 +142,7 @@
         </div>
       </a>
 
-      <a href="tutorial.html" class="tutorial-card">
+      <a href="tutorial-grpc.html" class="tutorial-card">
         <div class="tutorial-card-icon">⚡</div>
         <div class="tutorial-card-body">
           <div class="tutorial-card-tags">
@@ -139,8 +190,10 @@
       <a href="docs.html">Documentation</a>
       <a href="tutorials.html">Tutorials</a>
       <a href="changelog.html">Changelog</a>
+      <a href="tutorial-post.html">POST Tutorial</a>
       <a href="tutorial-rest.html">REST Tutorial</a>
-      <a href="tutorial.html">gRPC Tutorial</a>
+      <a href="tutorial-conditions.html">Condition Types Tutorial</a>
+      <a href="tutorial-grpc.html">gRPC Tutorial</a>
       <a href="https://github.com/YOUR_GITHUB/foxmock" target="_blank">GitHub</a>
     </div>
     <div class="footer-col">
